@@ -39,9 +39,15 @@ public class Gui extends Main implements ActionListener {
   JTextArea nameQuestion;
   String name = null;
   JButton myButtonName;
-  ogFont = welcomeText.getFont();
+
+  
+  Font welcomeFont;
+  Font ogFont;
+  Color welcomeColor;
+  ogFont = nameQuestion.getFont();
   welcomeColor = new Color(80,00,80);
-  welcomeFont = new Font(f.getColor(welcomeColor), f.getSize()+5);
+  welcomeFont.setColor(welcomeColor);
+  welcomeFont = new Font("Abril Fatface", f.getSize()+25);
 
   //scrollPostsFrame items
   JFrame scrollPostsFrame;
@@ -56,6 +62,7 @@ public class Gui extends Main implements ActionListener {
   FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.LOAD);
 
   Graphics g; 
+
   //imageHash Objects
   // ImageHash myHashPic; 
   // myHashPic = new ImageHash(); 
