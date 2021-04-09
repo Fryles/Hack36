@@ -1,6 +1,6 @@
 package Net;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import Net.ImageHash;
@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
-public class Network {
+public static class Network {
     static String baseUri = "http://192.168.1.242/";
     public static void main(String[] args) {
 
@@ -31,6 +31,17 @@ public class Network {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + hashtag)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
+            JSONArray json = new JSONArray(response.body);
+
+             if (json != null) {
+            for (int i=0;i<json.length();i++){
+                listdata.add(jsonArray.get(i));  
+            }   
+        }
+            String img64 = json.getString("img");
+            String[] hashes = json.getJSONArray("hashes");
+            ImageHash img = new ImageHash(img64,hashes);
+            imgs.add(img);
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -40,15 +40,6 @@ public class Gui extends Main implements ActionListener {
   String name = null;
   JButton myButtonName;
 
-  
-  Font welcomeFont;
-  Font ogFont;
-  Color welcomeColor;
-  ogFont = nameQuestion.getFont();
-  welcomeColor = new Color(80,00,80);
-  welcomeFont.setColor(welcomeColor);
-  welcomeFont = new Font("Abril Fatface", f.getSize()+25);
-
   //scrollPostsFrame items
   JFrame scrollPostsFrame;
   JPanel scrollPanel;
@@ -157,6 +148,10 @@ public class Gui extends Main implements ActionListener {
   }//end of algorithm function
   
   public void start(){
+    Font ogFont = nameQuestion.getFont();
+    Color welcomeColor = new Color(80,00,80);
+    Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 40);
+    nameColor.setColor(welcomeColor);
     welcomePage.add(BorderLayout.SOUTH, myButtonName);
     welcomePage.setSize(400, 300);
     welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,5 +159,6 @@ public class Gui extends Main implements ActionListener {
     welcomePage.add(BorderLayout.CENTER, nameBox);
     nameQuestion.setEditable(false);
     nameQuestion.append("Please enter a UserName.");
+    nameQuestion.setFont(Fonts.welcomeFont);
   }//end of start function
 }//end of Gui class
