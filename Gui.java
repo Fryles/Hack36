@@ -9,10 +9,23 @@
  * 	    	-
  * */
 import java.awt.*;
-import java.swing.*;
 import java.util.List;
 import java.util.ArrayList;
 import Net.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import java.awt.FileDialog;
 
 public class Gui extends Main implements ActionListener {
   //postFrame items
@@ -36,14 +49,16 @@ public class Gui extends Main implements ActionListener {
   JScrollPane scrollPane;
 
   //image Items
-  protected ImageIcon image;
+  protected Image image;
   protected JLabel label1;
   protected JButton button1;
   protected FileLoader canvas3;
-  FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.load);
+  FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.LOAD);
 
+  Graphics g; 
   //imageHash Objects
-  ImageHash myHashPic; 
+  // ImageHash myHashPic; 
+  // myHashPic = new ImageHash(); 
   List<ImageHash> hashPicList; 
 
   public Gui(){
@@ -55,7 +70,7 @@ public class Gui extends Main implements ActionListener {
     postFrame.setLayout(new FlowLayout());
     postFrame.add(button1);
     postFrame.add(BorderLayout.SOUTH, caption);
-    postFrame.getCloseOperation(JFrame.EXIT_ON_CLOSE);
+    postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     button1.addActionListener(this);
     canvas3 = new FileLoader(null);
     canvas3.setSize(700, 700);
@@ -80,12 +95,11 @@ public class Gui extends Main implements ActionListener {
 
     //scrollPane
     scrollPostsFrame = new JFrame();
-    scrollPane = new JPanel();
-    scrollPanel = new JScrollPane();
+    scrollPane = new JScrollPane();
+    scrollPanel = new JPanel();
 
     //ImageHash Objects
-    myHashPic = new ImageHash(); 
-    myList = new ArrayList<>();
+    hashPicList = new ArrayList<>();
   }
   
   /**
@@ -95,8 +109,8 @@ public class Gui extends Main implements ActionListener {
   */
   public void ActionPreformed(ActionEvent e){
     //possible delete
-    JButton b = (Button) event.getSource;
-    if(b == button1){
+    JButton b = (JButton) e.getSource();
+    if((JButton)b == button1){
       fd.setVisible(true);
       imageLoad();
     }
@@ -107,7 +121,7 @@ public class Gui extends Main implements ActionListener {
     Toolkit tk = Toolkit.getDefaultToolkit();
     image = tk.getImage(f);
     canvas3.setImage(image);
-    canvas3.paint();
+    canvas3.paint(g);
   }
 
   public JFrame algorithm(){
@@ -122,28 +136,21 @@ public class Gui extends Main implements ActionListener {
       myAlgList.add(parsedText);
     }//end of while loop to seperate hashtags 
 
-    while(ImageHash().hasNext()){
-      hashPicList.add(myHashPic);
-      if(ImageHash().hasNext){
-        myHashPic = new ImageHash();
-      } 
-    }
     /**
      *This is where we will put the cross refrencing of the hashtags.
      */
-    
   }//end of algorithm function
   
   public void start(){
     welcomePage.setSize(400, 800);
-    welcomePage.setCloseOperation(JFrame.EXIT_ON_CLOSE);
+    welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     welcomePage.add(BorderLayout.CENTER, nameQuestion);
     welcomePage.add(BorderLayout.SOUTH, nameBox);
     welcomePage.add(BorderLayout.NORTH, welcomeText);
     nameQuestion.setEditable(false);
     nameQuestion.append("Please enter a UserName.");
     welcomeText.setFont(welcomeFont);
-    welcomeText.setEditability(false);
+    welcomeText.setEditable(false);
     welcomeText.append("Welcome");
 
     name = nameBox.getText();

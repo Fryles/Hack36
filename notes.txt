@@ -12,3 +12,10 @@
 // import javax.swing.JScrollPane;
 // import javax.swing.JPanel;
 
+ // while(ImageHash().hasNext()){
+    //   hashPicList.add(myHashPic);
+    //   if(ImageHash().hasNext){
+    //     myHashPic = new ImageHash();
+    //   } 
+    // }
+    
