@@ -19,3 +19,23 @@
     //   } 
     // }
     
+
+    ogFont = welcomeText.getFont();
+    welcomeColor = new Color(80,00,80);
+    //welcomeFont = new Font(f.getColor(welcomeColor), f.getSize()+5);
+
+     Font welcomeFont;
+  Font ogFont;
+  Color welcomeColor;
+  
+  JTextArea welcomeText;
+  
+    welcomeText.setVisible(false);
+    welcomeText.setFont(welcomeFont);
+    welcomeText.setEditable(false);
+    welcomeText.append("Welcome");
+
+     welcomePage.add(BorderLayout.NORTH, welcomeText);
+
+     welcomeText = new JTextArea();
+     welcomeText.setVisible(true);  

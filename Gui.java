@@ -37,11 +37,8 @@ public class Gui extends Main implements ActionListener {
   JFrame welcomePage;
   JTextArea nameBox;
   JTextArea nameQuestion;
-  JTextArea welcomeText;
   String name = "default";
-  Font welcomeFont;
-  Font ogFont;
-  Color welcomeColor;
+ 
 
   //scrollPostsFrame items
   JFrame scrollPostsFrame;
@@ -62,12 +59,13 @@ public class Gui extends Main implements ActionListener {
   List<ImageHash> hashPicList; 
 
   public Gui(){
-    postFrame  = new JFrame("Post Frame");
+    postFrame  = new JFrame("Posting");
     caption = new JTextArea(400, 200);
     label1 = new JLabel("Choose image");
     button1 = new JButton("select");
     postFrame.setSize(400, 800);
     postFrame.setLayout(new FlowLayout());
+    postFrame.add()
     postFrame.add(button1);
     postFrame.add(BorderLayout.SOUTH, caption);
     postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,10 +78,6 @@ public class Gui extends Main implements ActionListener {
     welcomePage = new JFrame("Welcome");
     nameBox = new JTextArea(); 
     nameQuestion = new JTextArea();
-    welcomeText = new JTextArea();
-    ogFont = welcomeText.getFont();
-    welcomeColor = new Color(80,00,80);
-    //welcomeFont = new Font(f.getColor(welcomeColor), f.getSize()+5);
     
     //changes visibilty to allow different pages without action listener.
     caption.setVisible(false);
@@ -91,7 +85,6 @@ public class Gui extends Main implements ActionListener {
     welcomePage.setVisible(true);
     nameBox.setVisible(true);
     nameQuestion.setVisible(true);
-    welcomeText.setVisible(true);  
 
     //scrollPane
     scrollPostsFrame = new JFrame();
@@ -147,22 +140,18 @@ public class Gui extends Main implements ActionListener {
     welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     welcomePage.add(BorderLayout.CENTER, nameQuestion);
     welcomePage.add(BorderLayout.SOUTH, nameBox);
-    welcomePage.add(BorderLayout.NORTH, welcomeText);
     nameQuestion.setEditable(false);
     nameQuestion.append("Please enter a UserName.");
-    welcomeText.setFont(welcomeFont);
-    welcomeText.setEditable(false);
-    welcomeText.append("Welcome");
-
     name = nameBox.getText();
-    nameQuestion.setText("Thank You.");
-    
-    caption.setVisible(true);
-    postFrame.setVisible(true);
-    welcomePage.setVisible(false);
-    nameBox.setVisible(false);
-    nameQuestion.setVisible(false);
-    welcomeText.setVisible(false);
+    nameQuestion.setText("Thank You.");  
+    if(name != "default"){
+      caption.setVisible(true);
+      postFrame.setVisible(true);
+     welcomePage.setVisible(false);
+      nameBox.setVisible(false);
+      nameQuestion.setVisible(false);
+    }  
+   
     
   }//end of start function
 }//end of Gui class
