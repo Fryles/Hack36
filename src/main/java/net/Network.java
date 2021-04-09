@@ -16,55 +16,63 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
-public static class Network {
+public class Network {
     static String baseUri = "http://192.168.1.242/";
+
     public static void main(String[] args) {
 
         get("trees");
 
     }
 
-    public static ImageHash[] get(String hashtag) {
-        ArrayList<BufferedImage> imgs;
+    public static ArrayList<ImageHash> get(String hashtag) {
+        ArrayList<ImageHash> imgs = new ArrayList<ImageHash>();
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + hashtag)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
-            JSONArray json = new JSONArray(response.body);
+            JSONArray json = new JSONArray(response.body());
 
-             if (json != null) {
-            for (int i=0;i<json.length();i++){
-                listdata.add(jsonArray.get(i));  
-            }   
-        }
-            String img64 = json.getString("img");
-            String[] hashes = json.getJSONArray("hashes");
-            ImageHash img = new ImageHash(img64,hashes);
-            imgs.add(img);
+            if (json != null) {
+                for (int i = 0; i < json.length(); i++) {
+                    JSONObject currentJSON = json.getJSONObject(i);
+                    String img64 = currentJSON.getString("img");
+                    final ObjectMapper objectMapper = new ObjectMapper();
+                    String mappableJSON = currentJSON.getJSONArray("hashes").toString();
+                    String[] hashes = objectMapper.readValue(mappableJSON, String[].class);
+                    ImageHash img = new ImageHash(base64StringToImg(img64), hashes);
+                    imgs.add(img);
+                }
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
+        return imgs;
     }
-    public static void post(final String base64String, final String[] hashes) {
-        var values = new HashMap<String, String>() {{
-            put("img", base64String);
-            put ("hashes", hashes);
-        }};
 
-        var objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
-                .writeValueAsString(values);
+    public static void post(final String base64String, final String[] hashes) throws IOException, InterruptedException {
+        HashMap<String, String> values = new HashMap<String, String>() {
+            {
+                put("img", base64String);
+                put("hashes", hashes);
+            }
+        };
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody;
+        try {
+            requestBody = objectMapper.writeValueAsString(values);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseUri+"post"))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + "post"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
     }
 
     public static BufferedImage base64StringToImg(final String base64String) {

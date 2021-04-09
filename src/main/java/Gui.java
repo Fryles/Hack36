@@ -11,7 +11,7 @@
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
-import Net.*;
+import net.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics;
