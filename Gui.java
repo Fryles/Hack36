@@ -11,6 +11,7 @@
 import java.awt.*;
 import java.swing.*;
 import java.util.List;
+import Net.*;
 
 public class Gui extends Main implements ActionListener {
   //postFrame items
