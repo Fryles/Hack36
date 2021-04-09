@@ -1,4 +1,4 @@
-package Net;
+package net;
 import java.awt.image.*;
 
 public class ImageHash {
