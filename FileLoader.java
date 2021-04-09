@@ -2,7 +2,6 @@ import java.awt.FileDialog;
 
 public class FileLoader extends Canvas {
   Image img;
-  
 
   public FileLoader(Image img){
     this.img = img;
@@ -17,5 +16,4 @@ public class FileLoader extends Canvas {
       g.drawImage(img, 50, 200, 200, this);
     }
   }
-
 }
