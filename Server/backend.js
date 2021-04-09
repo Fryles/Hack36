@@ -37,6 +37,7 @@ app.get('/json/*', (req, res) => {
 
 app.get( '/', (req,res) => {
   console.log("HIT");
+  res.status(200).end("Succ");
 });
 
 app.listen(80, () => {
