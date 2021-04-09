@@ -37,7 +37,8 @@ public class Gui extends Main implements ActionListener {
   JFrame welcomePage;
   JTextArea nameBox;
   JTextArea nameQuestion;
-  String name = "default";
+  String name = null;
+  JButton myButtonName;
  
 
   //scrollPostsFrame items
@@ -59,13 +60,16 @@ public class Gui extends Main implements ActionListener {
   List<ImageHash> hashPicList; 
 
   public Gui(){
+    myButtonName = new JButton("Submit Name");
+    myButtonName.addActionListener(this);
+
     postFrame  = new JFrame("Posting");
     caption = new JTextArea(400, 200);
     label1 = new JLabel("Choose image");
     button1 = new JButton("select");
-    postFrame.setSize(400, 800);
+    postFrame.setSize(400, 500);
     postFrame.setLayout(new FlowLayout());
-    postFrame.add()
+    postFrame.add(label1);
     postFrame.add(button1);
     postFrame.add(BorderLayout.SOUTH, caption);
     postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,11 +105,20 @@ public class Gui extends Main implements ActionListener {
   * similar to hyper links
   */
   public void actionPerformed(ActionEvent e){
-    //possible delete
     JButton b = (JButton) e.getSource();
+    
     if((JButton)b == button1){
       fd.setVisible(true);
       imageLoad();
+    } else if((JButton)b == myButtonName){
+      name = nameBox.getText(); 
+      if(name != null){
+        caption.setVisible(true);
+        postFrame.setVisible(true);
+        welcomePage.setVisible(false);
+        nameBox.setVisible(false);
+        nameQuestion.setVisible(false);
+      } 
     }
   }
 
@@ -129,29 +142,18 @@ public class Gui extends Main implements ActionListener {
       myAlgList.add(parsedText);
     }//end of while loop to seperate hashtags 
 
-
     /**
      *This is where we will put the cross refrencing of the hashtags.
      */
   }//end of algorithm function
   
   public void start(){
-    welcomePage.setSize(400, 800);
+    welcomePage.add(BorderLayout.SOUTH, myButtonName);
+    welcomePage.setSize(400, 300);
     welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    welcomePage.add(BorderLayout.CENTER, nameQuestion);
-    welcomePage.add(BorderLayout.SOUTH, nameBox);
+    welcomePage.add(BorderLayout.NORTH, nameQuestion);
+    welcomePage.add(BorderLayout.CENTER, nameBox);
     nameQuestion.setEditable(false);
     nameQuestion.append("Please enter a UserName.");
-    name = nameBox.getText();
-    nameQuestion.setText("Thank You.");  
-    if(name != "default"){
-      caption.setVisible(true);
-      postFrame.setVisible(true);
-     welcomePage.setVisible(false);
-      nameBox.setVisible(false);
-      nameQuestion.setVisible(false);
-    }  
-   
-    
   }//end of start function
 }//end of Gui class
