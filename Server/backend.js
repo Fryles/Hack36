@@ -35,7 +35,9 @@ app.get('/json/*', (req, res) => {
 });
 
 
-app.use(express.static(__dirname + '/'));
+app.get( '/', (req,res) => {
+  console.log("HIT");
+});
 
 app.listen(80, () => {
     console.log('Server is listening on port 80')
