@@ -39,7 +39,9 @@ public class Gui extends Main implements ActionListener {
   JTextArea nameQuestion;
   String name = null;
   JButton myButtonName;
- 
+  ogFont = welcomeText.getFont();
+  welcomeColor = new Color(80,00,80);
+  welcomeFont = new Font(f.getColor(welcomeColor), f.getSize()+5);
 
   //scrollPostsFrame items
   JFrame scrollPostsFrame;

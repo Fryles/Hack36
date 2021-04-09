@@ -5,7 +5,6 @@ import java.awt.Graphics;
 public class FileLoader extends Canvas {
   Image img;
   
-
   public FileLoader(Image img){
     this.img = img;
   }
