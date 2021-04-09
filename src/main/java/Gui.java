@@ -2,7 +2,7 @@
  * @Author Duffy Anderson, Lucius Holzinger, Myles Marr
  * @Date 04/09/2021
  * @Purpose: to Create series of JFrames, along with a way to check for similar hashtags,
-             and ways to uplaod and view photos
+ *           and ways to uplaod and view photos
  * @Update: 
  * @Bugs: -
  * 	    	-
@@ -46,13 +46,11 @@ public class Gui extends Main implements ActionListener {
   JScrollPane scrollPane;
 
   //image Items
-  protected Image image;
-  protected JLabel label1;
-  protected JButton button1;
-  protected FileLoader canvas3;
+  ImageIcon myImage;
+  JLabel label1 = new JLabel("Choose image");
+  JLabel picLabel = new JLabel();
+  JButton button1 = new JButton("select");
   FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.LOAD);
-
-  Graphics g; 
 
   //imageHash Objects
   // ImageHash myHashPic; 
@@ -60,28 +58,25 @@ public class Gui extends Main implements ActionListener {
   List<ImageHash> hashPicList; 
 
   public Gui(){
-    myButtonName = new JButton("Submit Name");
-    myButtonName.addActionListener(this);
-
+    //post page
     postFrame  = new JFrame("Posting");
     caption = new JTextArea(400, 200);
-    label1 = new JLabel("Choose image");
-    button1 = new JButton("select");
     postFrame.setSize(400, 500);
     postFrame.setLayout(new FlowLayout());
     postFrame.add(label1);
     postFrame.add(button1);
+    postFrame.add(picLabel);
     postFrame.add(BorderLayout.SOUTH, caption);
     postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     button1.addActionListener(this);
-    canvas3 = new FileLoader(null);
-    canvas3.setSize(200, 200);
-    postFrame.add(BorderLayout.NORTH, canvas3);
     //postFrame.getContentPane...
 
     welcomePage = new JFrame("Welcome");
     nameBox = new JTextArea(); 
     nameQuestion = new JTextArea();
+    //submit button
+    myButtonName = new JButton("Submit Name");
+    myButtonName.addActionListener(this);
     
     //changes visibilty to allow different pages without action listener.
     caption.setVisible(false);
@@ -108,6 +103,7 @@ public class Gui extends Main implements ActionListener {
     JButton b = (JButton) e.getSource();
     if((JButton)b == button1){
       fd.setVisible(true);
+      picLabel.setVisible(true);
       imageLoad();
     } else if((JButton)b == myButtonName){
       name = nameBox.getText(); 
@@ -122,16 +118,13 @@ public class Gui extends Main implements ActionListener {
   }
 
   public void imageLoad(){
+    if (fd.getFile() == null){
+            label1.setText("You have not select");
+      }
     String f = (fd.getDirectory() + fd.getFile());
-    postFrame.add(canvas3);
-    Toolkit tk = Toolkit.getDefaultToolkit();
-    image = tk.getImage(f);
-    canvas3.setVisible(true);
-    canvas3.setImage(image);
-    canvas3.repaint();
-    if(canvas3 == null){
-        System.out.println("fail");
-    }
+    myImage = new ImageIcon(f);
+    picLabel.setIcon(myImage);
+    picLabel.setSize(500, 500);
   }
 
   public void algorithm(){
