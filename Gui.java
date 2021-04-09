@@ -11,6 +11,7 @@
 import java.awt.*;
 import java.swing.*;
 import java.util.List;
+import java.util.ArrayList;
 import Net.*;
 
 public class Gui extends Main implements ActionListener {
@@ -39,6 +40,11 @@ public class Gui extends Main implements ActionListener {
   protected JLabel label1;
   protected JButton button1;
   protected FileLoader canvas3;
+  FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.load);
+
+  //imageHash Objects
+  ImageHash myHashPic; 
+  List<ImageHash> hashPicList; 
 
   public Gui(){
     postFrame  = new JFrame("Post Frame");
@@ -77,6 +83,9 @@ public class Gui extends Main implements ActionListener {
     scrollPane = new JPanel();
     scrollPanel = new JScrollPane();
 
+    //ImageHash Objects
+    myHashPic = new ImageHash(); 
+    myList = new ArrayList<>();
   }
   
   /**
@@ -85,9 +94,9 @@ public class Gui extends Main implements ActionListener {
   * similar to hyper links
   */
   public void ActionPreformed(ActionEvent e){
-    Button b = (Button) event.getSource;
+    //possible delete
+    JButton b = (Button) event.getSource;
     if(b == button1){
-      FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.load);
       fd.setVisible(true);
       imageLoad();
     }
@@ -113,6 +122,12 @@ public class Gui extends Main implements ActionListener {
       myAlgList.add(parsedText);
     }//end of while loop to seperate hashtags 
 
+    while(ImageHash().hasNext()){
+      hashPicList.add(myHashPic);
+      if(ImageHash().hasNext){
+        myHashPic = new ImageHash();
+      } 
+    }
     /**
      *This is where we will put the cross refrencing of the hashtags.
      */

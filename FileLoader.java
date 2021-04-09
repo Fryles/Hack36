@@ -15,7 +15,7 @@ public class FileLoader extends Canvas {
 
   public void paint(Graphics g){
     if(img != null){
-      g.drawImage(img, 50, 200, 200, this);
+      g.drawImage(img, 50, 200, Color.lightGray, this);
     }
   }
 }
