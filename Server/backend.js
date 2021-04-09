@@ -12,31 +12,18 @@ app.post('/post', (req, res) => {
     var uuid = uuidv4();
     var data = req.body;
       var json = JSON.parse(existing);
-      json[uuid] = data;
+      json[uuid] = {'img':data.img,'hashes':data.hashes};
       fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
         if (err) throw err;
       });
       res.status(200).end("Succ");
-    fs.readFile("./timetable.json", function (err, tt) {
-      var json = JSON.parse(tt);
-      json.unshift(uuid);
-      fs.writeFile("./timetable.json", JSON.stringify(json), "utf8", (err) => {
-        if (err) throw err;
-      });
-    });
   });
 });
 
 
-app.post('/auth', (req, res) => {
-});
-
-app.get('/json/*', (req, res) => {
-});
-
-
 app.get( '/', (req,res) => {
-  console.log("HIT");
+  var hash = req.query.hash
+
   res.status(200).end("Succ");
 });
 

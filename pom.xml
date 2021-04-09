@@ -1,7 +1,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>mygroupid</groupId>
-  <artifactId>myartifactid</artifactId>
+  <groupId>duelinglutes</groupId>
+  <artifactId>hack36</artifactId>
   <version>0.0-SNAPSHOT</version>
   <dependencies>
     <dependency>

@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
 public class Network {
-
+    static String baseUri = "http://192.168.1.242/";
     public static void main(String[] args) {
 
         get("trees");
@@ -26,12 +26,32 @@ public class Network {
         ArrayList<BufferedImage> imgs;
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.1.242/" + hashtag)).build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + hashtag)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    public static void post(final String base64String, final String[] hashes) {
+        var values = new HashMap<String, String>() {{
+            put("img", base64String);
+            put ("hashes", hashes);
+        }};
+
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writeValueAsString(values);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUri+"post"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        
     }
 
     public static BufferedImage base64StringToImg(final String base64String) {
