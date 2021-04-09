@@ -1,11 +1,13 @@
 package Net;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import Net.ImageHash;
 import java.io.*;
 import java.net.URI;
 import java.util.Base64;
+import java.util.HashMap;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
