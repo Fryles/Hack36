@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.awt.FileDialog;
+import java.awt.Graphics;
 
 public class FileLoader extends Canvas {
   Image img;
