@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
@@ -33,13 +34,24 @@ public class Network {
         }
     }
 
-    public static BufferedImage base64StringToImg(final String base64String){
-        try{
+    public static BufferedImage base64StringToImg(final String base64String) {
+        try {
             return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64String)));
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
-            //error, so return blank img
-            return new BufferedImage(200,200,BufferedImage.TYPE_INT_RGB);
+            // error, so return blank img
+            return new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         }
+
+    }
+
+    public static String imgToBase64String(final BufferedImage img, final String formatName) {
+        final ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(img, formatName, Base64.getEncoder().wrap(os));
+            return os.toString(StandardCharsets.ISO_8859_1.name());
+        } catch (final IOException ioe) {
+            throw new UncheckedIOException(ioe);
         }
+    }
 }
