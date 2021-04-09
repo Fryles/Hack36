@@ -75,7 +75,7 @@ public class Gui extends Main implements ActionListener {
     postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     button1.addActionListener(this);
     canvas3 = new FileLoader(null);
-    canvas3.setSize(700, 700);
+    canvas3.setSize(200, 200);
     postFrame.add(BorderLayout.NORTH, canvas3);
     //postFrame.getContentPane...
 
@@ -106,7 +106,6 @@ public class Gui extends Main implements ActionListener {
   */
   public void actionPerformed(ActionEvent e){
     JButton b = (JButton) e.getSource();
-    
     if((JButton)b == button1){
       fd.setVisible(true);
       imageLoad();
@@ -124,10 +123,15 @@ public class Gui extends Main implements ActionListener {
 
   public void imageLoad(){
     String f = (fd.getDirectory() + fd.getFile());
+    postFrame.add(canvas3);
     Toolkit tk = Toolkit.getDefaultToolkit();
     image = tk.getImage(f);
+    canvas3.setVisible(true);
     canvas3.setImage(image);
-    canvas3.paint(g);
+    canvas3.repaint();
+    if(canvas3 == null){
+        System.out.println("fail");
+    }
   }
 
   public void algorithm(){
@@ -151,7 +155,6 @@ public class Gui extends Main implements ActionListener {
     Font ogFont = nameQuestion.getFont();
     Color welcomeColor = new Color(80,00,80);
     Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 40);
-    nameColor.setColor(welcomeColor);
     welcomePage.add(BorderLayout.SOUTH, myButtonName);
     welcomePage.setSize(400, 300);
     welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -159,6 +162,7 @@ public class Gui extends Main implements ActionListener {
     welcomePage.add(BorderLayout.CENTER, nameBox);
     nameQuestion.setEditable(false);
     nameQuestion.append("Please enter a UserName.");
-    nameQuestion.setFont(Fonts.welcomeFont);
+    //nameQuestion.setColor(welcomeColor);
+    //nameQuestion.setFont(Fonts.welcomeFont);
   }//end of start function
 }//end of Gui class
