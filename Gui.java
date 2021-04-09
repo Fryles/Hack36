@@ -57,6 +57,7 @@ public class Gui implements ActionListener extends Main{
     postFrame.add(BorderLayout.SOUTH, caption);
     postFrame.getDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     button1.addActionListener(this);
+    canvas3 = new FileLoader(null);
     //postFrame.getContentPane...
 
     welcomePage = new JFrame("Welcome Frame");
