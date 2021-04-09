@@ -1,3 +1,4 @@
+package Net;  
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,7 +15,7 @@ public class Network {
 
     }
 
-    public static void get(String hashtag) throws IOException, InterruptedException{
+    public static void get(String hashtag){
         try {
             System.out.println("running");
             HttpClient client = HttpClient.newHttpClient();
@@ -24,8 +25,16 @@ public class Network {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
-            }catch(Exception e)
-    {
+            }catch(Exception e){
         System.out.println(e);
+    }
+}
+
+    public static BufferedImage base64StringToImg(final String base64String) {
+        try {
+            return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64String)));
+        } catch (final IOException ioe) {
+            throw new UncheckedIOException(ioe);
+        }
     }
 }
