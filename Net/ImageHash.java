@@ -4,10 +4,8 @@ import java.awt.image.*;
 public class ImageHash {
 	BufferedImage img;
 	String[] hashes;
-	ImageHash(){
-		img = new BufferedImage(200,200,BufferedImage.TYPE_INT_RGB);
-		
+	public ImageHash(BufferedImage imeg,String[] hashz){
+		img = imeg;
+		hashes = hashz;
 	}
-
-	
 }
