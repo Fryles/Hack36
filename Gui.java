@@ -8,21 +8,11 @@
  * 	    	-
  * 	    	-
  * */
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
+import java.awt.*;
+import java.swing.*;
+import java.util.List;
 
-
-
-public class Gui implements ActionListener extends Main{
+public class Gui extends Main implements ActionListener {
   //postFrame items
   String textAreaData;
   JTextArea caption;
@@ -34,6 +24,9 @@ public class Gui implements ActionListener extends Main{
   JTextArea nameQuestion;
   JTextArea welcomeText;
   String name = "default";
+  Font welcomeFont;
+  Font ogFont;
+  Color welcomeColor;
 
   //scrollPostsFrame items
   JFrame scrollPostsFrame;
@@ -46,7 +39,7 @@ public class Gui implements ActionListener extends Main{
   protected JButton button1;
   protected FileLoader canvas3;
 
-  public Gui(String name){
+  public Gui(){
     postFrame  = new JFrame("Post Frame");
     caption = new JTextArea(400, 200);
     label1 = new JLabel("Choose image");
@@ -55,22 +48,29 @@ public class Gui implements ActionListener extends Main{
     postFrame.setLayout(new FlowLayout());
     postFrame.add(button1);
     postFrame.add(BorderLayout.SOUTH, caption);
-    postFrame.getDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    postFrame.getCloseOperation(JFrame.EXIT_ON_CLOSE);
     button1.addActionListener(this);
+    canvas3 = new FileLoader(null);
+    canvas3.setSize(700, 700);
+    postFrame.add(BorderLayout.NORTH, canvas3);
     //postFrame.getContentPane...
 
     welcomePage = new JFrame("Welcome Frame");
     nameBox = new JTextArea(); 
     nameQuestion = new JTextArea();
     welcomeText = new JTextArea();
+    ogFont = welcomeText.getFont();
+    welcomeColor = new Color(80,00,80);
+    //welcomeFont = new Font(f.getColor(welcomeColor), f.getSize()+5);
     
-    //unsure if this is necessary
+    //changes visibilty to allow different pages without action listener.
     caption.setVisible(false);
     postFrame.setVisible(false);
     welcomePage.setVisible(true);
     nameBox.setVisible(true);
     nameQuestion.setVisible(true);
-    welcomeText.setVisible(true);    
+    welcomeText.setVisible(true);  
+
     //scrollPane
     scrollPostsFrame = new JFrame();
     scrollPane = new JPanel();
@@ -84,7 +84,20 @@ public class Gui implements ActionListener extends Main{
   * similar to hyper links
   */
   public void ActionPreformed(ActionEvent e){
-    System.out.println("Action was preformed");
+    Button b = (Button) event.getSource;
+    if(b == button1){
+      FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.load);
+      fd.setVisible(true);
+      imageLoad();
+    }
+  }
+
+  public void imageLoad(){
+    String f = (fd.getDirectory() + fd.getFile());
+    Toolkit tk = Toolkit.getDefaultToolkit();
+    image = tk.getImage(f);
+    canvas3.setImage(image);
+    canvas3.paint();
   }
 
   public JFrame algorithm(){
@@ -94,8 +107,8 @@ public class Gui implements ActionListener extends Main{
 
     while(tempString.indexOf('#') >= 0){
       String parsedText;
-      tempString.subString(tempString.indexOf('#'));
-      parsedText =  tempString.subString(0, tempString.indexOf('#'));
+      tempString.substring(tempString.indexOf('#'));
+      parsedText =  tempString.substring(0, tempString.indexOf('#'));
       myAlgList.add(parsedText);
     }//end of while loop to seperate hashtags 
 
@@ -107,11 +120,15 @@ public class Gui implements ActionListener extends Main{
   
   public void start(){
     welcomePage.setSize(400, 800);
-    welcomePage.setDefaultCloseOperation();
-    welcomePage.add(BorderLayout.North, nameQuestion);.
-    welcomePage.add(BorderLayout.Center, nameBox);
+    welcomePage.setCloseOperation(JFrame.EXIT_ON_CLOSE);
+    welcomePage.add(BorderLayout.CENTER, nameQuestion);
+    welcomePage.add(BorderLayout.SOUTH, nameBox);
+    welcomePage.add(BorderLayout.NORTH, welcomeText);
     nameQuestion.setEditable(false);
     nameQuestion.append("Please enter a UserName.");
+    welcomeText.setFont(welcomeFont);
+    welcomeText.setEditability(false);
+    welcomeText.append("Welcome");
 
     name = nameBox.getText();
     nameQuestion.setText("Thank You.");
