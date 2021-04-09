@@ -77,7 +77,7 @@ public class Gui extends Main implements ActionListener {
     postFrame.add(BorderLayout.NORTH, canvas3);
     //postFrame.getContentPane...
 
-    welcomePage = new JFrame("Welcome Frame");
+    welcomePage = new JFrame("Welcome");
     nameBox = new JTextArea(); 
     nameQuestion = new JTextArea();
     welcomeText = new JTextArea();
@@ -107,7 +107,7 @@ public class Gui extends Main implements ActionListener {
   * might use a button but I would prefer something 
   * similar to hyper links
   */
-  public void ActionPreformed(ActionEvent e){
+  public void actionPerformed(ActionEvent e){
     //possible delete
     JButton b = (JButton) e.getSource();
     if((JButton)b == button1){
@@ -124,7 +124,7 @@ public class Gui extends Main implements ActionListener {
     canvas3.paint(g);
   }
 
-  public JFrame algorithm(){
+  public void algorithm(){
     List<String> myAlgList = new ArrayList<>();
     textAreaData = caption.getText();
     String tempString = textAreaData;
@@ -135,6 +135,7 @@ public class Gui extends Main implements ActionListener {
       parsedText =  tempString.substring(0, tempString.indexOf('#'));
       myAlgList.add(parsedText);
     }//end of while loop to seperate hashtags 
+
 
     /**
      *This is where we will put the cross refrencing of the hashtags.
