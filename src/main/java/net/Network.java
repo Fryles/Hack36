@@ -1,6 +1,6 @@
 package net;
 
-import com.fasterxml.jackson.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import net.ImageHash;
