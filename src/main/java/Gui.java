@@ -295,6 +295,7 @@ public class Gui extends Main implements ActionListener {
     for (String a : myHashList) {
       List<ImageHash> tempList = Network.get(a);
       for (ImageHash imghsh : tempList) {
+        System.out.println("adding: "+imghsh.hashes[0]);
         posts.add(imghsh);
       }
     }
