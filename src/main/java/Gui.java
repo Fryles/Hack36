@@ -226,6 +226,7 @@ public class Gui extends Main implements ActionListener {
       scrollPanel.setVisible(true);
   }
   public void post() throws IOException, InterruptedException {
+    System.out.println("POST BEFORE NETWORK");
     hashes = algorithm();
     String base64 = Network.imgToBase64String(toPost, "png");
     Network.post(base64, hashes);
