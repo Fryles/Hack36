@@ -17,12 +17,11 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-
-import Net.ImageHash;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -68,6 +67,9 @@ public class Gui extends Main implements ActionListener {
   
   JLabel scrollPic = new JLabel();
   
+
+  Image toPost;
+  String[] hashes;
   double points;
 
   public Gui(){  
@@ -163,15 +165,20 @@ public class Gui extends Main implements ActionListener {
   */
   public void actionPerformed(ActionEvent e){
     JButton b = (JButton) e.getSource();
-    Image img;
     if((JButton)b == postBtn){
       fd.setVisible(true);
       picLabel.setVisible(true);
-      img = imageLoad();
+      toPost = imageLoad();
     } else if(((JButton)b == submitNameBtn)){
       name = nameBox.getText(); 
       if(name != null){
-    	  posting();
+    	  try {
+          posting();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        } catch (InterruptedException e1) {
+          e1.printStackTrace();
+        }
       } //end of if original on posting page
     } else if(((JButton)b == leavePostingBtn)) {
     	System.out.println("in button 2");
@@ -185,11 +192,10 @@ public class Gui extends Main implements ActionListener {
     	points+=3;
     	fiveKBtn.setVisible(false);
     }//end of if else action listener
-    String base64 = Network.imgToBase64String(img,"png");
-    Network.post(base64,myAlgList);
+ 
   }//end of actionPerformed
   
-  public void posting() {
+  public void posting() throws IOException, InterruptedException {
 	  caption.setVisible(true);
       postFrame.setVisible(true);
       captionHead.setVisible(true);
@@ -201,6 +207,9 @@ public class Gui extends Main implements ActionListener {
       caption.append("                                                                                 ");
       captionHead.setText("Enter your hashtags here");
       points+=2;
+      hashes = algorithm();
+      String base64 = Network.imgToBase64String(toPost, "png");
+      Network.post(base64, hashes);
   }//end of posting method
 
   public void scrollingMethod() {
@@ -217,7 +226,6 @@ public class Gui extends Main implements ActionListener {
       scrollPostsFrame.setVisible(true);
       scrollPanel.setVisible(true);
       
-      algorithm();
   }
   
   public void fitCheck() {
@@ -247,7 +255,7 @@ public class Gui extends Main implements ActionListener {
     return image;
   }
 
-  public void algorithm(){
+  public String[] algorithm(){
     List<String> myAlgList = new ArrayList<>();
     textAreaData = caption.getText();
     String tempString = textAreaData;
@@ -260,7 +268,10 @@ public class Gui extends Main implements ActionListener {
       System.out.println(parsedText);
       points += 0.5;
     }//end of while loop to separate hashtags 
-    
+    String[] arr = new String[myAlgList.size()];
+    return myAlgList.toArray(arr);
+  }
+  public void getImages() {
     JPanel myMainPanel;
     JPanel hashPanel;
     List<ImageHash> myPostList = Network.get();
@@ -279,6 +290,7 @@ public class Gui extends Main implements ActionListener {
   	  	hashTemp += "#" + ht;
   	  }
     }
+
     /**
      *This is where we will put the cross referencing of the hashtags.
      */
