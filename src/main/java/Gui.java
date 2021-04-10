@@ -265,7 +265,7 @@ public class Gui extends Main implements ActionListener {
     JPanel hashPanel;
     List<ImageHash> myPostList = Network.get();
     for(Object c: myPostList) {
-      List<String> myHashTags = hashes[];
+      String[] myHashTags = hashes[];
     	myMainPanel = new JPanel();
     	scrollPanel.add(myMainPanel);
     	Image myI = img;
