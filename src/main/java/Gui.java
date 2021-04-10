@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+
 import javax.swing.JPanel;
 
 import javax.swing.JFrame;
@@ -44,8 +45,10 @@ public class Gui extends Main implements ActionListener {
   JButton submitNameBtn;
 
   // scrollPostsFrame items
+  JFrame myMainPanel;
+  JLabel hashPanel;
   JLabel scrollPic = new JLabel();
-  //JFrame scrollPostsFrame;
+  // JFrame scrollPostsFrame;
 
   // image Items
   ImageIcon myImage;
@@ -66,6 +69,8 @@ public class Gui extends Main implements ActionListener {
   Image toPost;
   String[] hashes;
   double points;
+  int postIndex = 0;
+  ArrayList<ImageHash> posts = new ArrayList<ImageHash>();
 
   public Gui() {
     points = 0.0;
@@ -140,7 +145,7 @@ public class Gui extends Main implements ActionListener {
     caption.setVisible(false);
     postFrame.setVisible(false);
     captionHead.setVisible(false);
-    //scrollPostsFrame.setVisible(false);
+    // scrollPostsFrame.setVisible(false);
     fitFrame.setVisible(false);
     exitFitBtn.setVisible(false);
     fivekStepsLabel.setVisible(false);
@@ -214,7 +219,7 @@ public class Gui extends Main implements ActionListener {
     postFrame.setVisible(false);
     captionHead.setVisible(false);
     leavePostingBtn.setVisible(false);
-    //scrollPostsFrame.setVisible(true);
+    // scrollPostsFrame.setVisible(true);
   }
 
   public void post() throws IOException, InterruptedException {
@@ -231,7 +236,7 @@ public class Gui extends Main implements ActionListener {
     outsideLabel.setVisible(true);
     outsideBtn.setVisible(true);
     fiveKBtn.setVisible(true);
-    //scrollPostsFrame.setVisible(false);
+    // scrollPostsFrame.setVisible(false);
 
   }
 
@@ -275,36 +280,21 @@ public class Gui extends Main implements ActionListener {
   }
 
   public void getImages() {
-    JFrame myMainPanel;
-    JLabel hashPanel;
-    List<ImageHash> myPostList = new ArrayList<>();
     String[] myHashList = algorithm();
     for (String a : myHashList) {
       List<ImageHash> tempList = Network.get(a);
-      for(ImageHash imghsh : tempList) {
-        myPostList.add(imghsh);
+      for (ImageHash imghsh : tempList) {
+        posts.add(imghsh);
       }
     }
-    
-    myMainPanel = new JFrame("Recent");
-    ImageHash c = myPostList.get(0);
-      Image myI = c.img;
-      Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-      myImage = new ImageIcon(newimg);
-      scrollPic.setIcon(myImage);
-      myMainPanel.add(BorderLayout.NORTH, scrollPic);
-      hashPanel = new JLabel();
-      String hashTemp = "";
-      for (String ht : c.hashes) {
-        hashTemp += "#" + ht + " ";
-      }
-      System.out.println(hashTemp);
-      myMainPanel.setSize(275,400);
-      hashPanel.setSize(250,100);
-      hashPanel.setText(hashTemp);
-      myMainPanel.add(BorderLayout.SOUTH, hashPanel);
-      hashPanel.setVisible(true);
-      myMainPanel.setVisible(true);
+
+    myMainPanel = new JFrame("Recent Posts");
+    refreshPost();
+    myMainPanel.setSize(275, 400);
+    hashPanel.setSize(250, 100);
+    myMainPanel.add(BorderLayout.SOUTH, hashPanel);
+    hashPanel.setVisible(true);
+    myMainPanel.setVisible(true);
 
     scrollPic.setVisible(true);
     hashPanel.setVisible(true);
@@ -313,6 +303,22 @@ public class Gui extends Main implements ActionListener {
      * This is where we will put the cross referencing of the hashtags.
      */
   }// end of algorithm function
+
+  public void refreshPost() {
+    ImageHash c = posts.get(postIndex);
+    Image myI = c.img;
+    Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+    myImage = new ImageIcon(newimg);
+    scrollPic.setIcon(myImage);
+    myMainPanel.add(BorderLayout.CENTER, scrollPic);
+    hashPanel = new JLabel();
+    String hashTemp = "";
+    for (String ht : c.hashes) {
+      hashTemp += "#" + ht + " ";
+    }
+    System.out.println(hashTemp);
+    hashPanel.setText(hashTemp);
+  }
 
   public void start() {
     // Font ogFont = nameQuestion.getFont();
