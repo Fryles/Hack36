@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import net.ImageHash;
 import java.io.*;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.Base64;
 import java.util.HashMap;
 import java.net.http.HttpClient;
@@ -18,6 +19,10 @@ import java.util.ArrayList;
 
 public class Network {
     static String baseUri = "http://192.168.1.242/";
+
+    private static final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .build();
 
     public static void main(String[] args) {
 
@@ -52,26 +57,22 @@ public class Network {
     }
 
     public static void post(final String base64String, final String[] hashes) throws IOException, InterruptedException {
-        HashMap<String, String> values = new HashMap<String, String>() {
-            {
-                put("img", base64String);
-                put("hashes", hashes);
-            }
-        };
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody;
-        try {
-            requestBody = objectMapper.writeValueAsString(values);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        HashMap<Object, Object> data = new HashMap<>();
+        data.put("img", base64String);
+        data.put("hashes", hashes);
 
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + "post"))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
+                .uri(URI.create(baseUri+"post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
+                .header("Content-Type", "application/x-www-form-urlencoded").build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // print status code
+        System.out.println(response.statusCode());
+
+        // print response body
+        System.out.println(response.body());
 
     }
 
@@ -84,6 +85,20 @@ public class Network {
             return new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         }
 
+    }
+
+    private static HttpRequest.BodyPublisher buildFormDataFromMap(HashMap<Object, Object> data) {
+        StringBuilder builder = new StringBuilder();
+        for (HashMap.Entry<Object, Object> entry : data.entrySet()) {
+            if (builder.length() > 0) {
+                builder.append("&");
+            }
+            builder.append(URLEncoder.encode(entry.getKey().toString(), StandardCharsets.UTF_8));
+            builder.append("=");
+            builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
+        }
+        System.out.println(builder.toString());
+        return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
     public static String imgToBase64String(final BufferedImage img, final String formatName) {
