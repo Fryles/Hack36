@@ -1,4 +1,4 @@
-package com.csworkspace;
+
 /**
  * @Author Duffy Anderson, Lucius Holzinger, Myles Marr
  * @Date 04/09/2021
@@ -12,7 +12,7 @@ package com.csworkspace;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
-// import net.*;
+import net.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics;
@@ -71,7 +71,7 @@ public class Gui extends Main implements ActionListener {
   double points;
 
   public Gui(){  
-	points =0;
+	  points = 0.0;
 	  
     //post page
     postFrame  = new JFrame("Posting");
@@ -163,10 +163,11 @@ public class Gui extends Main implements ActionListener {
   */
   public void actionPerformed(ActionEvent e){
     JButton b = (JButton) e.getSource();
+    Image img;
     if((JButton)b == postBtn){
       fd.setVisible(true);
       picLabel.setVisible(true);
-      imageLoad();
+      img = imageLoad();
     } else if(((JButton)b == submitNameBtn)){
       name = nameBox.getText(); 
       if(name != null){
@@ -184,6 +185,8 @@ public class Gui extends Main implements ActionListener {
     	points+=3;
     	fiveKBtn.setVisible(false);
     }//end of if else action listener
+    String base64 = Network.imgToBase64String(img,"png");
+    Network.post(base64,myAlgList);
   }//end of actionPerformed
   
   public void posting() {
@@ -229,7 +232,7 @@ public class Gui extends Main implements ActionListener {
       
   }
   
-  public void imageLoad(){
+  public Image imageLoad(){
 	  
 	 /////////missing if else/////////
 	  
@@ -241,6 +244,7 @@ public class Gui extends Main implements ActionListener {
 	  picLabel.setIcon(myImage);
 	  postBtn.setVisible(false);
 	  leavePostingBtn.setVisible(true);
+    return image;
   }
 
   public void algorithm(){
@@ -259,21 +263,21 @@ public class Gui extends Main implements ActionListener {
     
     JPanel myMainPanel;
     JPanel hashPanel;
-    List<ImageHash> myPostList = new ArrayList<>();
-    List<String> myHashTags = new ArrayList<>();
+    List<ImageHash> myPostList = Network.get();
     for(Object c: myPostList) {
+      List<String> myHashTags = hashes[];
     	myMainPanel = new JPanel();
     	scrollPanel.add(myMainPanel);
-    	Image myI = image;
+    	Image myI = img;
     	Image newimg = myI.getScaledInstance(240, 240,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-  	  	myImage = new ImageIcon(newimg);
-  	  	scrollPic.setIcon(myImage);
-  	  	myMainPanel.add(scrollPic);
-  	  	hashPanel = new JPanel();
-  	  	String hashTemp = "";
-  	  	for(String ht: myHashTags) {
-  	  		hashTemp += "#" + ht;
-  	  	}
+  	  myImage = new ImageIcon(newimg);
+  		scrollPic.setIcon(myImage);
+  		myMainPanel.add(scrollPic);
+    	hashPanel = new JPanel();
+	  	String hashTemp = "";
+     	for(String ht: myHashTags) {
+  	  	hashTemp += "#" + ht;
+  	  }
     }
     /**
      *This is where we will put the cross referencing of the hashtags.
