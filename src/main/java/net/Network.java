@@ -7,7 +7,6 @@ import net.ImageHash;
 import java.io.*;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.Base64.*;
 import java.util.HashMap;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -103,12 +102,12 @@ public class Network {
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
-    public static String imgToBase64String(final Image img, final String formatName) {
+    public static String imgToBase64String(final Image img, final String formatName) throws IOException {
         BufferedImage bImage = SwingFXUtils.fromFXImage(img, null);
         ByteArrayOutputStream s = new ByteArrayOutputStream();
         ImageIO.write(bImage, "png", s);
         byte[] res  = s.toByteArray();
         s.close();
-        Base64.encode(res);
+        return Base64.getEncoder().encodeToString(res);
     }
 }
