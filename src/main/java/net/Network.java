@@ -53,7 +53,11 @@ public class Network {
 
         HashMap<Object, Object> data = new HashMap<>();
         data.put("img", base64String);
-        data.put("hashes", hashes);
+        JSONArray hashArr = new JSONArray();
+        for (int i = 0; i < hashes.length; i++) {
+            hashArr.put(hashes[i]);
+        }
+        data.put("hashes", hashArr.toString());
         System.out.println("POSTING");
         HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
                 .uri(URI.create(baseUri + "post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
@@ -62,7 +66,7 @@ public class Network {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         // print status code
-        //System.out.println(response.statusCode());
+        // System.out.println(response.statusCode());
 
         // print response body
         //System.out.println(response.body());

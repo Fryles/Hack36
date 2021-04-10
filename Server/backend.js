@@ -2,6 +2,7 @@ const express = require('express')
 const fs = require('fs')
 const bodyParser = require('body-parser')
 const app = express()
+const { v4: uuidv4 } = require("uuid");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -12,7 +13,7 @@ app.post('/post', (req, res) => {
     var uuid = uuidv4();
     var data = req.body;
       var json = JSON.parse(existing);
-      json[uuid] = {'img':data.img,'hashes':data.hashes};
+      json.unshift({'img':data.img,'hashes':data.hashes});
       fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
         if (err) throw err;
       });
