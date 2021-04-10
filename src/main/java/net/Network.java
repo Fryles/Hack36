@@ -12,13 +12,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.Base64;
-
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
 public class Network {
     static String baseUri = "http://192.168.1.242/";
@@ -102,11 +100,25 @@ public class Network {
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
-    public static String imgToBase64String(final Image img, final String formatName) throws IOException {
-        BufferedImage bImage = SwingFXUtils.fromFXImage(img, null);
+    public static BufferedImage toBufferedImage(java.awt.Image img) {
+
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
+    }
+
+    public static String imgToBase64String(java.awt.Image img, String formatName) throws IOException {
+        BufferedImage bImage = toBufferedImage(img);
         ByteArrayOutputStream s = new ByteArrayOutputStream();
         ImageIO.write(bImage, "png", s);
-        byte[] res  = s.toByteArray();
+        byte[] res = s.toByteArray();
         s.close();
         return Base64.getEncoder().encodeToString(res);
     }
