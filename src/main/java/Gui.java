@@ -85,10 +85,12 @@ public class Gui extends Main implements ActionListener {
     postFrame.setLayout(new FlowLayout());
     postFrame.add(label1);
     postFrame.add(postBtn);
-    postFrame.add(picLabel);
+    postFrame.add(picLabel, BorderLayout.SOUTH);
 
     // captions
     caption = new JTextArea();
+    Color welcomeColor = new Color(80, 80, 80);
+    caption.setBackground(welcomeColor);
     caption.setSize(100,100);
     captionHead = new JLabel();
     postFrame.add(BorderLayout.CENTER, caption);
