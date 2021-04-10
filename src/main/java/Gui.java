@@ -273,6 +273,7 @@ public class Gui extends Main implements ActionListener {
       myAlgList.add(parsedText);
       System.out.println(parsedText);
       points += 0.5;
+     }
     String[] arr = new String[myAlgList.size()];
     return myAlgList.toArray(arr);
   }
