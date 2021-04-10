@@ -327,7 +327,6 @@ public class Gui extends Main implements ActionListener {
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
       myMainPanel.add(BorderLayout.NORTH, scrollPic);
-      hashPanel = new JLabel();
       String hashTemp = "";
       for (String ht : c.hashes) {
         hashTemp += "#" + ht + " ";
