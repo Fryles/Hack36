@@ -7,7 +7,7 @@ import net.ImageHash;
 import java.io.*;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.Base64;
+import java.util.Base64.*;
 import java.util.HashMap;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,13 +16,15 @@ import java.nio.charset.StandardCharsets;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
+import java.util.Base64;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 public class Network {
     static String baseUri = "http://192.168.1.242/";
 
-    private static final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_2)
-            .build();
+    private static final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 
     public static void main(String[] args) {
 
@@ -63,7 +65,7 @@ public class Network {
         data.put("hashes", hashes);
 
         HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
-                .uri(URI.create(baseUri+"post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
+                .uri(URI.create(baseUri + "post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
                 .header("Content-Type", "application/x-www-form-urlencoded").build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -101,13 +103,12 @@ public class Network {
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
-    public static String imgToBase64String(final BufferedImage img, final String formatName) {
-        final ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(img, formatName, Base64.getEncoder().wrap(os));
-            return os.toString(StandardCharsets.ISO_8859_1.name());
-        } catch (final IOException ioe) {
-            throw new UncheckedIOException(ioe);
-        }
+    public static String imgToBase64String(final Image img, final String formatName) {
+        BufferedImage bImage = SwingFXUtils.fromFXImage(img, null);
+        ByteArrayOutputStream s = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", s);
+        byte[] res  = s.toByteArray();
+        s.close();
+        Base64.encode(res);
     }
 }
