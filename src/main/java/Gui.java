@@ -263,17 +263,17 @@ public class Gui extends Main implements ActionListener {
     textAreaData = caption.getText();
     String tempString = textAreaData;
 
-    while(tempString.indexOf('#') >= 0){
+     while(tempString.indexOf('#') >= 0){
       String parsedText;
-      tempString.substring(tempString.indexOf('#'));
+      tempString = tempString.substring(tempString.indexOf('#')+1);
       parsedText =  tempString.substring(0, tempString.indexOf('#'));
       myAlgList.add(parsedText);
       System.out.println(parsedText);
       points += 0.5;
-    }//end of while loop to separate hashtags 
     String[] arr = new String[myAlgList.size()];
     return myAlgList.toArray(arr);
   }
+  
   public void getImages() {
     JPanel myMainPanel;
     JPanel hashPanel;
