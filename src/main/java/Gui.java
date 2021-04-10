@@ -76,6 +76,13 @@ public class Gui extends Main implements ActionListener {
   //refreshing
   JButton nextPostBtn;
 
+  //enter hashtag frame
+  JFrame hashtagFrame;
+  JTextArea enterTagsTxt;
+  JButton submitHashtagsBtn;
+  JLabel userTitle;
+  JLabel enterTagsQ;
+
   public Gui() {
     points = 0.0;
 
@@ -114,6 +121,19 @@ public class Gui extends Main implements ActionListener {
     // scrollPane
     // scrollPostsFrame = new JFrame();
     // scrollPostsFrame.setSize(275, 400);
+
+    //enter Hashtags frames
+    hashtagFrame = new JFrame();
+    enterTagsTxt = new JTextArea();
+    submitHashtagsBtn = new JButton("Enter");
+    userTitle = new JLabel();
+    enterTagsQ = new JLabel();
+    enterTagsQ.setVisible(false);
+    userTitle.setVisible(false);
+    hashtagFrame.setVisible(false);
+    enterTagsTxt.setVisible(false);
+    submitHashtagsBtn.setVisible(false);
+    submitHashtagsBtn.addActionListener(this);
 
     // fit check
     // create objects
@@ -192,8 +212,7 @@ public class Gui extends Main implements ActionListener {
       }
       fitCheck();
     } else if (((JButton) b == exitFitBtn)) {
-      getImages();
-      scrollingMethod();
+      hashtags();
     } else if (((JButton) b == outsideBtn)) {
       outsideBtn.setVisible(false);
       points++;
@@ -203,10 +222,33 @@ public class Gui extends Main implements ActionListener {
     } else if(((JButton)b) == nextPostBtn){
       postIndex++;
       refreshPost();
+    } else if((JButton)b == submitHashtagsBtn){
+      getImages();
+      scrollingMethod();
     }// end of if else action listener
 
   }// end of actionPerformed
-
+  public void hashtags(){
+    hashtagFrame.setVisible(true);
+    enterTagsTxt.setVisible(true);
+    submitHashtagsBtn.setVisible(true);
+    userTitle.setVisible(true);
+    enterTagsQ.setVisible(true);
+    hashtagFrame.setSize(275,400);
+    hashtagFrame.add(userTitle);
+    userTitle.setText(scoreFunc());
+    Color txtBoxColor = new Color(170, 120, 190);
+    enterTagsTxt.setBackground(txtBoxColor);
+    enterTagsTxt.setPreferredSize(new Dimension(200, 100));
+    enterTagsQ.setText("Please enter the HashTags you are looking for.");
+    hashtagFrame.setLayout(new FlowLayout());
+    hashtagFrame.add(enterTagsTxt);
+    hashtagFrame.add(enterTagsQ);
+    Color submitTagsColor = new Color(152, 20, 40);
+    submitHashtagsBtn.setBackground(submitTagsColor);
+    submitHashtagsBtn.setPreferredSize(new Dimension(80, 30));
+    hashtagFrame.add(submitHashtagsBtn);
+  }
   public void posting() {
     caption.setVisible(true);
     postFrame.setVisible(true);
@@ -273,7 +315,7 @@ public class Gui extends Main implements ActionListener {
 
   public String[] algorithm() {
     List<String> myAlgList = new ArrayList<>();
-    textAreaData = caption.getText();
+    textAreaData = enterTagsTxt.getText();
     String tempString = textAreaData;
 
     while (tempString.indexOf('#') >= 0) {
