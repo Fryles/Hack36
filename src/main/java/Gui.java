@@ -245,9 +245,8 @@ public class Gui extends Main implements ActionListener {
   
   public Image imageLoad(){
 	  
-	 /////////missing if else/////////
    if(fd.getFile() == null){
-     
+     label1.setText("You have not selected yet");
    }
 	  
 	  String f = (fd.getDirectory() + fd.getFile());
@@ -268,7 +267,7 @@ public class Gui extends Main implements ActionListener {
 
      while(tempString.indexOf('#') >= 0){
       String parsedText;
-      tempString = tempString.substring(tempString.indexOf('#')+1);
+      tempString = tempString.substring(tempString.indexOf('#')+1, tempString.length());
       parsedText =  tempString.substring(0, tempString.indexOf('#'));
       myAlgList.add(parsedText);
       System.out.println(parsedText);
