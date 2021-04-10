@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.JPanel;
 
 import net.ImageHash;
 import net.Network;
@@ -45,6 +46,7 @@ public class Gui extends Main implements ActionListener {
   JTextArea nameQuestion;
   String name = null;
   JButton submitNameBtn;
+  JPanel welcomePanel;
 
   // scrollPostsFrame items
   JFrame myMainPanel;
@@ -85,6 +87,12 @@ public class Gui extends Main implements ActionListener {
   JLabel userTitle;
   JLabel enterTagsQ;
 
+  //profile page things
+  JFrame profileFrame;
+  JLabel profilePic;
+  JLabel userNameLabel;
+  JButton postAgainButton;
+
   public Gui() {
     points = 0.0;
 
@@ -112,9 +120,11 @@ public class Gui extends Main implements ActionListener {
     leavePostingBtn.addActionListener(this);
     // postFrame.getContentPane...
 
+    //welcome stuff
     welcomePage = new JFrame("Welcome");
     nameBox = new JTextArea();
     nameQuestion = new JTextArea();
+    welcomePanel = new JPanel();
 
     // submit button
     submitNameBtn = new JButton("Submit Name");
@@ -171,6 +181,12 @@ public class Gui extends Main implements ActionListener {
     nextPostBtn = new JButton("Next");
     prevPostBtn = new JButton("Previous");
 
+    //profile pages 
+    profilePic = new JLabel();
+    userNameLabel = new JLabel();
+    postAgainButton = new JButton();
+
+
     // changes visibility to allow different pages without action listener.
     welcomePage.setVisible(true);
     nameBox.setVisible(true);
@@ -187,7 +203,7 @@ public class Gui extends Main implements ActionListener {
     outsideBtn.setVisible(false);
     fiveKBtn.setVisible(false);
 
-  }
+  }//end of constructor
 
   /**
    * Should check for people interacting with the project might use a button but I
@@ -214,7 +230,7 @@ public class Gui extends Main implements ActionListener {
         e1.printStackTrace();
       }
       fitCheck();
-    } else if (((JButton) b == exitFitBtn)) {
+    } else if (((JButton) b == exitFitBtn)||((JButton) b ==  postAgainButton)) {
       hashtags();
     } else if (((JButton) b == outsideBtn)) {
       outsideBtn.setVisible(false);
@@ -226,17 +242,18 @@ public class Gui extends Main implements ActionListener {
       if (posts.size()-1 > postIndex) {
         postIndex++;
         refreshPost();
+      } else {
+        profilePage();
       }
     } else if (((JButton) b) == prevPostBtn) {
       if (postIndex > 0) {
         postIndex--;
         refreshPost();
       }
-    } else if ((JButton) b == submitHashtagsBtn) {
+    }else if((JButton)b == submitHashtagsBtn){
       getImages();
       scrollingMethod();
-    } // end of if else action listener
-
+    } 
   }// end of actionPerformed
 
   public void hashtags() {
@@ -259,6 +276,28 @@ public class Gui extends Main implements ActionListener {
     submitHashtagsBtn.setBackground(submitTagsColor);
     submitHashtagsBtn.setPreferredSize(new Dimension(80, 30));
     hashtagFrame.add(submitHashtagsBtn);
+  }
+
+  public void profilePage() {
+    System.out.println("inside profile function");
+    profileFrame = new JFrame(scoreFunc());
+    profilePic.setVisible(true);
+    profileFrame.setVisible(true);
+    userNameLabel.setVisible(true);
+    postAgainButton.setVisible(true);
+    myMainPanel.setVisible(false);
+    hashPanel.setVisible(false);
+    scrollPic.setVisible(false);
+    profileFrame.setSize(275,400);
+
+    Font welcomeFont = new Font("Georgia", Font.BOLD, 25);
+    userNameLabel.setFont(welcomeFont);
+    userNameLabel.setText("Hello "+ name);
+    ImageIcon myImage = new ImageIcon("C:/Users/duffy/Downloads/Computer%20projects%20senior%20year/Hack36/ironman.png");
+    Image image = myImage.getImage(); // transform it
+    Image newimg = image.getScaledInstance(240, 240,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+    myImage = new ImageIcon(newimg);
+    profilePic.setIcon(myImage);
   }
 
   public void posting() {
@@ -394,17 +433,30 @@ public class Gui extends Main implements ActionListener {
   }
 
   public void start() {
-    // Font ogFont = nameQuestion.getFont();
-    // Color welcomeColor = new Color(80, 00, 80);
-    Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 20);
-    nameQuestion.setFont(welcomeFont);
-    welcomePage.add(BorderLayout.SOUTH, submitNameBtn);
-    welcomePage.setSize(400, 300);
+    welcomePage.setSize(475, 325);
     welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    welcomePage.add(BorderLayout.NORTH, nameQuestion);
-    welcomePage.add(BorderLayout.CENTER, nameBox);
+
+    welcomePage.setTitle("Welcome!");
+    welcomePage.add(welcomePanel);
+    welcomePanel.setLayout(null);
+
+    nameQuestion.setText("Please enter a UserName.");
+    nameQuestion.setBounds(140, 30, 200, 50);
+    welcomePanel.add(nameQuestion);
+
+    nameBox.setBounds(150, 85, 165, 25);
+    welcomePanel.add(nameBox);
+
+    submitNameBtn.setBounds(150, 250, 155, 35);
+    welcomePanel.add(submitNameBtn);
+
+    welcomePage.setVisible(true);
+    welcomePage.setResizable(false);
+    
+    Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 16);
+    nameQuestion.setFont(welcomeFont);
+    nameBox.setFont(welcomeFont);
     nameQuestion.setEditable(false);
-    nameQuestion.append("Please enter a UserName.");
 
   }// end of start function
 
