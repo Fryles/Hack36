@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
 import java.awt.FileDialog;
 
 public class Gui extends Main implements ActionListener {
@@ -42,8 +42,7 @@ public class Gui extends Main implements ActionListener {
   JButton submitNameBtn;
 
   // scrollPostsFrame items
-  JFrame scrollPostsFrame;
-  JScrollPane scrollPane;
+  //JFrame scrollPostsFrame;
 
   // image Items
   ImageIcon myImage;
@@ -99,10 +98,8 @@ public class Gui extends Main implements ActionListener {
     submitNameBtn.addActionListener(this);
 
     // scrollPane
-    scrollPostsFrame = new JFrame();
-    scrollPane = new JScrollPane();
-    scrollPostsFrame.setSize(275, 400);
-    scrollPostsFrame.add(scrollPane);
+    // scrollPostsFrame = new JFrame();
+    // scrollPostsFrame.setSize(275, 400);
 
     // fit check
     // create objects
@@ -142,8 +139,7 @@ public class Gui extends Main implements ActionListener {
     caption.setVisible(false);
     postFrame.setVisible(false);
     captionHead.setVisible(false);
-    scrollPostsFrame.setVisible(false);
-    scrollPane.setVisible(false);
+    //scrollPostsFrame.setVisible(false);
     fitFrame.setVisible(false);
     exitFitBtn.setVisible(false);
     fivekStepsLabel.setVisible(false);
@@ -217,8 +213,7 @@ public class Gui extends Main implements ActionListener {
     postFrame.setVisible(false);
     captionHead.setVisible(false);
     leavePostingBtn.setVisible(false);
-    scrollPostsFrame.setVisible(true);
-    scrollPane.setVisible(true);
+    //scrollPostsFrame.setVisible(true);
   }
 
   public void post() throws IOException, InterruptedException {
@@ -235,8 +230,7 @@ public class Gui extends Main implements ActionListener {
     outsideLabel.setVisible(true);
     outsideBtn.setVisible(true);
     fiveKBtn.setVisible(true);
-    scrollPostsFrame.setVisible(false);
-    scrollPane.setVisible(false);
+    //scrollPostsFrame.setVisible(false);
 
   }
 
@@ -280,7 +274,7 @@ public class Gui extends Main implements ActionListener {
   }
 
   public void getImages() {
-    JScrollPane myMainPanel;
+    JFrame myMainPanel;
     JLabel hashPanel;
     List<ImageHash> myPostList = new ArrayList<>();
     String[] myHashList = algorithm();
@@ -291,21 +285,29 @@ public class Gui extends Main implements ActionListener {
         System.out.println(imghsh.hashes[0]);
       }
     }
-
+    
+    myMainPanel = new JFrame("Recent");
     for (ImageHash c : myPostList) {
-      myMainPanel = new JScrollPane();
-      scrollPane.add(myMainPanel);
       Image myI = c.img;
       Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
-      myMainPanel.add(scrollPic);
+      myMainPanel.add(BorderLayout.NORTH, scrollPic);
       hashPanel = new JLabel();
       String hashTemp = "";
       for (String ht : c.hashes) {
         hashTemp += "#" + ht + " ";
       }
+      System.out.println(hashTemp);
+      myMainPanel.setSize(275,400);
+      hashPanel.setSize();
       hashPanel.setText(hashTemp);
+      myMainPanel.add(BorderLayout.SOUTH, hashPanel);
+      scrollPic.setVisible(true);
+      hashPanel.setVisible(true);
+      myMainPanel.setVisible(true);
+
+
     }
 
     /**
