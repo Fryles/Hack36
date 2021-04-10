@@ -172,19 +172,20 @@ public class Gui extends Main implements ActionListener {
     } else if(((JButton)b == submitNameBtn)){
       name = nameBox.getText(); 
       if(name != null){
-    	  try {
           posting();
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        } catch (InterruptedException e1) {
-          e1.printStackTrace();
-        }
       } //end of if original on posting page
     } else if(((JButton)b == leavePostingBtn)) {
     	System.out.println("in button 2");
+      try {
+        post();
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      } catch (InterruptedException e1) {
+        e1.printStackTrace();
+      }
     	fitCheck();
     }else if(((JButton)b == exitFitBtn)) {
-    	scrollingMethod();
+        scrollingMethod();
     }else if(((JButton)b == outsideBtn)) {
     	outsideBtn.setVisible(false);
     	points++;
@@ -195,7 +196,7 @@ public class Gui extends Main implements ActionListener {
  
   }//end of actionPerformed
   
-  public void posting() throws IOException, InterruptedException {
+  public void posting() {
 	  caption.setVisible(true);
       postFrame.setVisible(true);
       captionHead.setVisible(true);
@@ -207,12 +208,10 @@ public class Gui extends Main implements ActionListener {
       caption.append("                                                                                 ");
       captionHead.setText("Enter your hashtags here");
       points+=2;
-      hashes = algorithm();
-      String base64 = Network.imgToBase64String(toPost, "png");
-      Network.post(base64, hashes);
   }//end of posting method
 
-  public void scrollingMethod() {
+  public void scrollingMethod(){
+
 	  fitFrame.setVisible(false);
 	  exitFitBtn.setVisible(false);
 	  fivekStepsLabel.setVisible(false);
@@ -225,9 +224,12 @@ public class Gui extends Main implements ActionListener {
       leavePostingBtn.setVisible(false);
       scrollPostsFrame.setVisible(true);
       scrollPanel.setVisible(true);
-      
   }
-  
+  public void post() throws IOException, InterruptedException {
+    hashes = algorithm();
+    String base64 = Network.imgToBase64String(toPost, "png");
+    Network.post(base64, hashes);
+  }
   public void fitCheck() {
 	  fitFrame.setVisible(true);
 	  exitFitBtn.setVisible(true);

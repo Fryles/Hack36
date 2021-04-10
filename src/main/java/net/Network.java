@@ -23,12 +23,6 @@ public class Network {
 
     private static final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 
-    public static void main(String[] args) {
-
-        get("trees");
-
-    }
-
     public static ArrayList<ImageHash> get(String hashtag) {
         ArrayList<ImageHash> imgs = new ArrayList<ImageHash>();
         try {
@@ -60,7 +54,7 @@ public class Network {
         HashMap<Object, Object> data = new HashMap<>();
         data.put("img", base64String);
         data.put("hashes", hashes);
-
+        System.out.println("POSTING");
         HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
                 .uri(URI.create(baseUri + "post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
                 .header("Content-Type", "application/x-www-form-urlencoded").build();
