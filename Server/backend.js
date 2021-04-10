@@ -1,13 +1,9 @@
 const express = require('express')
 const fs = require('fs')
-const bodyParser = require('body-parser')
 const app = express()
-const { v4: uuidv4 } = require("uuid");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  bodyParser.json({ limit: "10mb", extended: true, parameterLimit: 50000 })
-);
+app.use(express.json({limit: '25mb'}));
+app.use(express.urlencoded({limit: '25mb'}));
 
 
 app.post('/post', (req, res) => {
