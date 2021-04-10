@@ -27,9 +27,8 @@ public class Network {
         ArrayList<ImageHash> imgs = new ArrayList<ImageHash>();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + hashtag)).build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + "?hash=" + hashtag)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
             JSONArray json = new JSONArray(response.body());
 
             if (json != null) {
@@ -46,6 +45,7 @@ public class Network {
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println(imgs.size());
         return imgs;
     }
 

@@ -10,10 +10,9 @@ app.use(bodyParser.json());
 
 app.post('/post', (req, res) => {
   fs.readFile("./posts.json", function (err, existing) {
-    var uuid = uuidv4();
     var data = req.body;
       var json = JSON.parse(existing);
-      json.unshift({'img':data.img,'hashes':data.hashes});
+      json.unshift({'img':data.img,'hashes':JSON.parse(data.hashes)});
       fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
         if (err) throw err;
       });
@@ -23,9 +22,20 @@ app.post('/post', (req, res) => {
 
 
 app.get( '/', (req,res) => {
-  var hash = req.query.hash
-
-  res.status(200).end("Succ");
+  var tobe = [];
+  var reqhash = req.query.hash
+  fs.readFile("./posts.json", function (err, existing) {
+    var json = JSON.parse(existing);
+    for(let i = 0;i<json.length;i++){
+      for(let u = 0;u<json[i].hashes.length;u++){
+        if(json[i].hashes[u] == reqhash){
+          tobe.push(json[i]);
+        }
+      }
+    }
+    res.status(200).end(JSON.stringify(tobe));
+  })
+  
 });
 
 app.listen(80, () => {
