@@ -48,7 +48,7 @@ public class Gui extends Main implements ActionListener {
 
   // scrollPostsFrame items
   JFrame myMainPanel;
-  JLabel hashPanel= new JLabel();
+  JLabel hashPanel = new JLabel();
   JLabel scrollPic = new JLabel();
   // JFrame scrollPostsFrame;
 
@@ -57,7 +57,7 @@ public class Gui extends Main implements ActionListener {
   JLabel label1 = new JLabel("Choose image");
   JLabel picLabel = new JLabel();
   JButton postBtn = new JButton("select");
-  JButton leavePostingBtn = new JButton("Find Posts");
+  JButton leavePostingBtn = new JButton("Post");
   FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.LOAD);
 
   // fit check
@@ -71,13 +71,14 @@ public class Gui extends Main implements ActionListener {
   Image toPost;
   String[] hashes;
   double points;
-  int postIndex = 1;
+  int postIndex = 0;
   ArrayList<ImageHash> posts = new ArrayList<ImageHash>();
 
-  //refreshing
+  // refreshing
   JButton nextPostBtn;
+  JButton prevPostBtn;
 
-  //enter hashtag frame
+  // enter hashtag frame
   JFrame hashtagFrame;
   JTextArea enterTagsTxt;
   JButton submitHashtagsBtn;
@@ -100,7 +101,7 @@ public class Gui extends Main implements ActionListener {
     Color welcomeColor = new Color(180, 180, 180);
     caption.setBackground(welcomeColor);
     caption.setPreferredSize(new Dimension(200, 30));
-    caption.setSize(100,100);
+    caption.setSize(100, 100);
     captionHead = new JLabel();
     postFrame.add(BorderLayout.SOUTH, caption);
     postFrame.add(BorderLayout.CENTER, captionHead);
@@ -123,7 +124,7 @@ public class Gui extends Main implements ActionListener {
     // scrollPostsFrame = new JFrame();
     // scrollPostsFrame.setSize(275, 400);
 
-    //enter Hashtags frames
+    // enter Hashtags frames
     hashtagFrame = new JFrame();
     enterTagsTxt = new JTextArea();
     submitHashtagsBtn = new JButton("Enter");
@@ -166,8 +167,9 @@ public class Gui extends Main implements ActionListener {
     outsideLabel.setText("Click if you have gone outside today.");
     fivekStepsLabel.setText("Click if you have walked fivek steps.");
 
-    //refreshing
-    nextPostBtn = new JButton();
+    // refreshing
+    nextPostBtn = new JButton("Next");
+    prevPostBtn = new JButton("Previous");
 
     // changes visibility to allow different pages without action listener.
     welcomePage.setVisible(true);
@@ -220,22 +222,30 @@ public class Gui extends Main implements ActionListener {
     } else if (((JButton) b == fiveKBtn)) {
       points += 3;
       fiveKBtn.setVisible(false);
-    } else if(((JButton)b) == nextPostBtn){
-      postIndex++;
-      refreshPost();
-    } else if((JButton)b == submitHashtagsBtn){
+    } else if (((JButton) b) == nextPostBtn) {
+      if (posts.size()-1 > postIndex) {
+        postIndex++;
+        refreshPost();
+      }
+    } else if (((JButton) b) == prevPostBtn) {
+      if (postIndex > 0) {
+        postIndex--;
+        refreshPost();
+      }
+    } else if ((JButton) b == submitHashtagsBtn) {
       getImages();
       scrollingMethod();
-    }// end of if else action listener
+    } // end of if else action listener
 
   }// end of actionPerformed
-  public void hashtags(){
+
+  public void hashtags() {
     hashtagFrame.setVisible(true);
     enterTagsTxt.setVisible(true);
     submitHashtagsBtn.setVisible(true);
     userTitle.setVisible(true);
     enterTagsQ.setVisible(true);
-    hashtagFrame.setSize(275,400);
+    hashtagFrame.setSize(275, 400);
     hashtagFrame.add(userTitle);
     userTitle.setText(scoreFunc());
     Color txtBoxColor = new Color(170, 120, 190);
@@ -250,6 +260,7 @@ public class Gui extends Main implements ActionListener {
     submitHashtagsBtn.setPreferredSize(new Dimension(80, 30));
     hashtagFrame.add(submitHashtagsBtn);
   }
+
   public void posting() {
     caption.setVisible(true);
     postFrame.setVisible(true);
@@ -314,6 +325,7 @@ public class Gui extends Main implements ActionListener {
     leavePostingBtn.setVisible(true);
     return image;
   }
+
   public String[] algorithm(JTextArea value) {
     List<String> myAlgList = new ArrayList<>();
     textAreaData = value.getText();
@@ -341,35 +353,37 @@ public class Gui extends Main implements ActionListener {
     for (String a : myHashList) {
       List<ImageHash> tempList = Network.get(a);
       for (ImageHash imghsh : tempList) {
-        System.out.println("adding: "+imghsh.hashes[0]);
+        System.out.println("adding: " + imghsh.hashes[0]);
         posts.add(imghsh);
       }
     }
     myMainPanel = new JFrame("Recent Posts");
     refreshPost();
-    myMainPanel.setSize(275, 400);
+    myMainPanel.setSize(300, 400);
     hashPanel.setSize(250, 100);
-    myMainPanel.add(BorderLayout.CENTER, hashPanel);
+    myMainPanel.add(BorderLayout.SOUTH, hashPanel);
     hashPanel.setVisible(true);
     myMainPanel.setVisible(true);
     scrollPic.setVisible(true);
     hashPanel.setVisible(true);
     myMainPanel.setVisible(true);
-    myMainPanel.add(BorderLayout.SOUTH, nextPostBtn);
+    myMainPanel.add(BorderLayout.EAST, nextPostBtn);
+    myMainPanel.add(BorderLayout.WEST, prevPostBtn);
     nextPostBtn.addActionListener(this);
+    prevPostBtn.addActionListener(this);
     /**
      * This is where we will put the cross referencing of the hashtags.
      */
   }// end of algorithm function
 
   public void refreshPost() {
-    if(posts.size() >= postIndex){
+    if (posts.size() >= postIndex && postIndex >= 0) {
       ImageHash c = posts.get(postIndex);
       Image myI = c.img;
       Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
-      myMainPanel.add(BorderLayout.NORTH, scrollPic);
+      myMainPanel.add(BorderLayout.CENTER, scrollPic);
       String hashTemp = "";
       for (String ht : c.hashes) {
         hashTemp += "#" + ht + " ";
