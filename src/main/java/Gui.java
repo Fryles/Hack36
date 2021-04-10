@@ -47,7 +47,7 @@ public class Gui extends Main implements ActionListener {
 
   // scrollPostsFrame items
   JFrame myMainPanel;
-  JLabel hashPanel;
+  JLabel hashPanel= new JLabel();
   JLabel scrollPic = new JLabel();
   // JFrame scrollPostsFrame;
 
