@@ -30,7 +30,6 @@ public class Network {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUri + "?hash=" + hashtag)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONArray json = new JSONArray(response.body());
-
             if (json != null) {
                 for (int i = 0; i < json.length(); i++) {
                     JSONObject currentJSON = json.getJSONObject(i);

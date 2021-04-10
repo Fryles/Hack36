@@ -244,7 +244,7 @@ public class Gui extends Main implements ActionListener {
     hashtagFrame.setLayout(new FlowLayout());
     hashtagFrame.add(enterTagsTxt);
     hashtagFrame.add(enterTagsQ);
-    Color submitTagsColor = new Color(152, 20, 40);
+    Color submitTagsColor = new Color(152, 20, 120);
     submitHashtagsBtn.setBackground(submitTagsColor);
     submitHashtagsBtn.setPreferredSize(new Dimension(80, 30));
     hashtagFrame.add(submitHashtagsBtn);
@@ -280,7 +280,7 @@ public class Gui extends Main implements ActionListener {
 
   public void post() throws IOException, InterruptedException {
     System.out.println("POST BEFORE NETWORK");
-    hashes = algorithm();
+    hashes = algorithm(caption);
     String base64 = Network.imgToBase64String(toPost, "png");
     Network.post(base64, hashes);
   }
@@ -309,13 +309,13 @@ public class Gui extends Main implements ActionListener {
     myImage = new ImageIcon(newimg);
     picLabel.setIcon(myImage);
     postBtn.setVisible(false);
+    postBtn.setPreferredSize(new Dimension(200, 100));
     leavePostingBtn.setVisible(true);
     return image;
   }
-
-  public String[] algorithm() {
+  public String[] algorithm(JTextArea value) {
     List<String> myAlgList = new ArrayList<>();
-    textAreaData = enterTagsTxt.getText();
+    textAreaData = value.getText();
     String tempString = textAreaData;
 
     while (tempString.indexOf('#') >= 0) {
@@ -336,7 +336,7 @@ public class Gui extends Main implements ActionListener {
   }
 
   public void getImages() {
-    String[] myHashList = algorithm();
+    String[] myHashList = algorithm(enterTagsTxt);
     for (String a : myHashList) {
       List<ImageHash> tempList = Network.get(a);
       for (ImageHash imghsh : tempList) {

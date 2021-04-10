@@ -22,9 +22,12 @@ app.post('/post', (req, res) => {
 app.get( '/', (req,res) => {
   var tobe = [];
   var reqhash = req.query.hash
+  
   fs.readFile("./posts.json", function (err, existing) {
     var json = JSON.parse(existing);
+    console.log(json)
     for(let i = 0;i<json.length;i++){
+      console.log(json[i]);
       for(let u = 0;u<json[i].hashes.length;u++){
         console.log(i+":  "+json[i].hashes[u]);
         if(json[i].hashes[u] == reqhash){
