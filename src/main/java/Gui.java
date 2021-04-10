@@ -15,20 +15,16 @@ import java.util.ArrayList;
 import net.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.Graphics;
+// import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JPanel;
 import java.awt.FileDialog;
 
 public class Gui extends Main implements ActionListener {
@@ -47,7 +43,7 @@ public class Gui extends Main implements ActionListener {
 
   // scrollPostsFrame items
   JFrame scrollPostsFrame;
-  JPanel scrollPanel;
+  JScrollPane scrollPane;
 
   // image Items
   ImageIcon myImage;
@@ -104,9 +100,9 @@ public class Gui extends Main implements ActionListener {
 
     // scrollPane
     scrollPostsFrame = new JFrame();
-    scrollPanel = new JPanel();
+    scrollPane = new JScrollPane();
     scrollPostsFrame.setSize(275, 400);
-    scrollPostsFrame.add(scrollPanel);
+    scrollPostsFrame.add(scrollPane);
 
     // fit check
     // create objects
@@ -147,7 +143,7 @@ public class Gui extends Main implements ActionListener {
     postFrame.setVisible(false);
     captionHead.setVisible(false);
     scrollPostsFrame.setVisible(false);
-    scrollPanel.setVisible(false);
+    scrollPane.setVisible(false);
     fitFrame.setVisible(false);
     exitFitBtn.setVisible(false);
     fivekStepsLabel.setVisible(false);
@@ -183,6 +179,7 @@ public class Gui extends Main implements ActionListener {
       }
       fitCheck();
     } else if (((JButton) b == exitFitBtn)) {
+      getImages();
       scrollingMethod();
     } else if (((JButton) b == outsideBtn)) {
       outsideBtn.setVisible(false);
@@ -221,7 +218,7 @@ public class Gui extends Main implements ActionListener {
     captionHead.setVisible(false);
     leavePostingBtn.setVisible(false);
     scrollPostsFrame.setVisible(true);
-    scrollPanel.setVisible(true);
+    scrollPane.setVisible(true);
   }
 
   public void post() throws IOException, InterruptedException {
@@ -239,7 +236,7 @@ public class Gui extends Main implements ActionListener {
     outsideBtn.setVisible(true);
     fiveKBtn.setVisible(true);
     scrollPostsFrame.setVisible(false);
-    scrollPanel.setVisible(false);
+    scrollPane.setVisible(false);
 
   }
 
@@ -270,47 +267,57 @@ public class Gui extends Main implements ActionListener {
       tempString = tempString.substring(tempString.indexOf('#') + 1, tempString.length());
       if (tempString.indexOf('#') >= 0) {
         parsedText = tempString.substring(0, tempString.indexOf('#'));
-      }else{
+      } else {
         parsedText = tempString.substring(0, tempString.length());
       }
-        myAlgList.add(parsedText);
-        System.out.println(parsedText);
-        points += 0.5;
-      
+      myAlgList.add(parsedText);
+      System.out.println(parsedText);
+      points += 0.5;
+
     }
     String[] arr = new String[myAlgList.size()];
     return myAlgList.toArray(arr);
   }
 
   public void getImages() {
-    JPanel myMainPanel;
-    JPanel hashPanel;
-    List<ImageHash> myPostList = Network.get();
-    for(Object c: myPostList) {
-      String[] myHashTags = hashes[];
-    	myMainPanel = new JPanel();
-    	scrollPanel.add(myMainPanel);
-    	Image myI = img;
-    	Image newimg = myI.getScaledInstance(240, 240,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-  	  myImage = new ImageIcon(newimg);
-  		scrollPic.setIcon(myImage);
-  		myMainPanel.add(scrollPic);
-    	hashPanel = new JPanel();
-	  	String hashTemp = "";
-     	for(String ht: myHashTags) {
-  	  	hashTemp += "#" + ht;
-  	  }
+    JScrollPane myMainPanel;
+    JLabel hashPanel;
+    List<ImageHash> myPostList = new ArrayList<>();
+    String[] myHashList = algorithm();
+    for (String a : myHashList) {
+      List<ImageHash> tempList = Network.get(a);
+      for (ImageHash imghsh : tempList) {
+        myPostList.add(imghsh);
+        System.out.println(imghsh.hashes);
+      }
+    }
+
+    for (ImageHash c : myPostList) {
+      myMainPanel = new JScrollPane();
+      scrollPane.add(myMainPanel);
+      Image myI = c.img;
+      Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+      myImage = new ImageIcon(newimg);
+      scrollPic.setIcon(myImage);
+      myMainPanel.add(scrollPic);
+      hashPanel = new JLabel();
+      String hashTemp = "";
+      for (String ht : c.hashes) {
+        hashTemp += "#" + ht + " ";
+      }
+      hashPanel.setText(hashTemp);
     }
 
     /**
-     *This is where we will put the cross referencing of the hashtags.
+     * This is where we will put the cross referencing of the hashtags.
      */
   }// end of algorithm function
 
   public void start() {
-    Font ogFont = nameQuestion.getFont();
-    Color welcomeColor = new Color(80, 00, 80);
-    Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 40);
+    // Font ogFont = nameQuestion.getFont();
+    // Color welcomeColor = new Color(80, 00, 80);
+    Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 20);
+    nameQuestion.setFont(welcomeFont);
     welcomePage.add(BorderLayout.SOUTH, submitNameBtn);
     welcomePage.setSize(400, 300);
     welcomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
