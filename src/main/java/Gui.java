@@ -44,6 +44,7 @@ public class Gui extends Main implements ActionListener {
   JButton submitNameBtn;
 
   // scrollPostsFrame items
+  JLabel scrollPic = new JLabel();
   //JFrame scrollPostsFrame;
 
   // image Items
@@ -286,10 +287,9 @@ public class Gui extends Main implements ActionListener {
     }
     
     myMainPanel = new JFrame("Recent");
-    for (ImageHash c : myPostList) {
+    ImageHash c = myPostList.get(0);
       Image myI = c.img;
       Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-		return myImage = new ImageIcon(newimg);
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
       myMainPanel.add(BorderLayout.NORTH, scrollPic);
@@ -300,22 +300,15 @@ public class Gui extends Main implements ActionListener {
       }
       System.out.println(hashTemp);
       myMainPanel.setSize(275,400);
-      hashPanel.setSize();
+      hashPanel.setSize(250,100);
       hashPanel.setText(hashTemp);
       myMainPanel.add(BorderLayout.SOUTH, hashPanel);
-      scrollPic.setVisible(true);
       hashPanel.setVisible(true);
       myMainPanel.setVisible(true);
-
-
-    }
 
     scrollPic.setVisible(true);
     hashPanel.setVisible(true);
     myMainPanel.setVisible(true);
-    scrollPaneFrame.setVisible(true);
-    scrollPane.setVisible(true);
-
     /**
      * This is where we will put the cross referencing of the hashtags.
      */
