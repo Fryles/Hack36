@@ -66,7 +66,7 @@ public class Network {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         // print status code
-        // System.out.println(response.statusCode());
+        System.out.println(response.statusCode());
 
         // print response body
         //System.out.println(response.body());
@@ -94,7 +94,6 @@ public class Network {
             builder.append("=");
             builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
         }
-        System.out.println(builder.toString());
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
