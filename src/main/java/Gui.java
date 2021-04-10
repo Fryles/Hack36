@@ -246,6 +246,9 @@ public class Gui extends Main implements ActionListener {
   public Image imageLoad(){
 	  
 	 /////////missing if else/////////
+   if(fd.getFile() == null){
+     
+   }
 	  
 	  String f = (fd.getDirectory() + fd.getFile());
 	  myImage = new ImageIcon(f);
