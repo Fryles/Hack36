@@ -62,10 +62,10 @@ public class Network {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         // print status code
-        System.out.println(response.statusCode());
+        //System.out.println(response.statusCode());
 
         // print response body
-        System.out.println(response.body());
+        //System.out.println(response.body());
 
     }
 
