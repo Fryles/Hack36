@@ -203,7 +203,7 @@ public class Gui extends Main implements ActionListener {
     nameQuestion.setVisible(false);
     caption.setEditable(true);
     caption.setSize(200, 155);
-    caption.append("                                                                                 ");
+    caption.append("");
     captionHead.setText("Enter your hashtags here");
     points += 2;
   }// end of posting method
