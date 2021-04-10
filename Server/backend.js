@@ -28,6 +28,7 @@ app.get( '/', (req,res) => {
     var json = JSON.parse(existing);
     for(let i = 0;i<json.length;i++){
       for(let u = 0;u<json[i].hashes.length;u++){
+        console.log(i+":  "+json[i].hashes[u]);
         if(json[i].hashes[u] == reqhash){
           tobe.push(json[i]);
         }
