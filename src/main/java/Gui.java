@@ -22,6 +22,8 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.JPanel;
+
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -44,6 +46,7 @@ public class Gui extends Main implements ActionListener {
   // scrollPostsFrame items
   JFrame scrollPostsFrame;
   JScrollPane scrollPane;
+  Jpanel scrollPic = new JPanel();
 
   // image Items
   ImageIcon myImage;
@@ -60,8 +63,6 @@ public class Gui extends Main implements ActionListener {
   JLabel outsideLabel = new JLabel();
   JButton outsideBtn = new JButton();
   JButton fiveKBtn = new JButton();
-
-  JLabel scrollPic = new JLabel();
 
   Image toPost;
   String[] hashes;
@@ -286,9 +287,8 @@ public class Gui extends Main implements ActionListener {
     String[] myHashList = algorithm();
     for (String a : myHashList) {
       List<ImageHash> tempList = Network.get(a);
-      for (ImageHash imghsh : tempList) {
+      for(ImageHash imghsh : tempList) {
         myPostList.add(imghsh);
-        System.out.println(imghsh.hashes[0]);
       }
     }
 
@@ -297,6 +297,7 @@ public class Gui extends Main implements ActionListener {
       scrollPane.add(myMainPanel);
       Image myI = c.img;
       Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+		return myImage = new ImageIcon(newimg);
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
       myMainPanel.add(scrollPic);
@@ -307,6 +308,12 @@ public class Gui extends Main implements ActionListener {
       }
       hashPanel.setText(hashTemp);
     }
+
+    scrollPic.setVisible(true);
+    hashPanel.setVisible(true);
+    myMainPanel.setVisible(true);
+    scrollPaneFrame.setVisible(true);
+    scrollPane.setVisible(true);
 
     /**
      * This is where we will put the cross referencing of the hashtags.
