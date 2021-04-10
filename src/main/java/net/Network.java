@@ -58,6 +58,7 @@ public class Network {
             hashArr.put(hashes[i]);
         }
         data.put("hashes", hashArr.toString());
+        System.out.println("POSTING");
         HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
                 .uri(URI.create(baseUri + "post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
                 .header("Content-Type", "application/x-www-form-urlencoded").build();
@@ -93,6 +94,7 @@ public class Network {
             builder.append("=");
             builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
         }
+        System.out.println(builder.toString());
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 

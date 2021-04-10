@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JPanel;
 
 import javax.swing.JFrame;
+import javax.security.auth.RefreshFailedException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.FileDialog;
@@ -69,8 +70,11 @@ public class Gui extends Main implements ActionListener {
   Image toPost;
   String[] hashes;
   double points;
-  int postIndex = 0;
+  int postIndex = 1;
   ArrayList<ImageHash> posts = new ArrayList<ImageHash>();
+
+  //refreshing
+  JButton nextPostBtn;
 
   public Gui() {
     points = 0.0;
@@ -85,6 +89,7 @@ public class Gui extends Main implements ActionListener {
 
     // captions
     caption = new JTextArea();
+    caption.setSize(100,100);
     captionHead = new JLabel();
     postFrame.add(BorderLayout.CENTER, caption);
     postFrame.add(BorderLayout.CENTER, captionHead);
@@ -136,6 +141,9 @@ public class Gui extends Main implements ActionListener {
     // set labels
     outsideLabel.setText("Click if you have gone outside today.");
     fivekStepsLabel.setText("Click if you have walked fivek steps.");
+
+    //refreshing
+    nextPostBtn = new JButton();
 
     // changes visibility to allow different pages without action listener.
     welcomePage.setVisible(true);
@@ -189,7 +197,10 @@ public class Gui extends Main implements ActionListener {
     } else if (((JButton) b == fiveKBtn)) {
       points += 3;
       fiveKBtn.setVisible(false);
-    } // end of if else action listener
+    } else if(((JButton)b) == nextPostBtn){
+      postIndex++;
+      refreshPost();
+    }// end of if else action listener
 
   }// end of actionPerformed
 
@@ -287,37 +298,39 @@ public class Gui extends Main implements ActionListener {
         posts.add(imghsh);
       }
     }
-
     myMainPanel = new JFrame("Recent Posts");
     refreshPost();
     myMainPanel.setSize(275, 400);
     hashPanel.setSize(250, 100);
-    myMainPanel.add(BorderLayout.SOUTH, hashPanel);
+    myMainPanel.add(BorderLayout.CENTER, hashPanel);
     hashPanel.setVisible(true);
     myMainPanel.setVisible(true);
-
     scrollPic.setVisible(true);
     hashPanel.setVisible(true);
     myMainPanel.setVisible(true);
+    myMainPanel.add(BorderLayout.SOUTH, nextPostBtn);
+    nextPostBtn.addActionListener(this);
     /**
      * This is where we will put the cross referencing of the hashtags.
      */
   }// end of algorithm function
 
   public void refreshPost() {
-    ImageHash c = posts.get(postIndex);
-    Image myI = c.img;
-    Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-    myImage = new ImageIcon(newimg);
-    scrollPic.setIcon(myImage);
-    myMainPanel.add(BorderLayout.CENTER, scrollPic);
-    hashPanel = new JLabel();
-    String hashTemp = "";
-    for (String ht : c.hashes) {
-      hashTemp += "#" + ht + " ";
+    if(posts.size() >= postIndex){
+      ImageHash c = posts.get(postIndex);
+      Image myI = c.img;
+      Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+      myImage = new ImageIcon(newimg);
+      scrollPic.setIcon(myImage);
+      myMainPanel.add(BorderLayout.NORTH, scrollPic);
+      hashPanel = new JLabel();
+      String hashTemp = "";
+      for (String ht : c.hashes) {
+        hashTemp += "#" + ht + " ";
+      }
+      System.out.println(hashTemp);
+      hashPanel.setText(hashTemp);
     }
-    System.out.println(hashTemp);
-    hashPanel.setText(hashTemp);
   }
 
   public void start() {

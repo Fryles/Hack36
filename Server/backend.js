@@ -5,7 +5,9 @@ const app = express()
 const { v4: uuidv4 } = require("uuid");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(
+  bodyParser.json({ limit: "10mb", extended: true, parameterLimit: 50000 })
+);
 
 
 app.post('/post', (req, res) => {
