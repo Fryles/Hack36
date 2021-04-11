@@ -64,18 +64,16 @@ public class Gui extends Main implements ActionListener {
   FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.LOAD);
 
   // fit check
-  JFrame fitFrame = new JFrame("Fit check");
+  JFrame fitFrame = new JFrame();
   JButton exitFitBtn = new JButton();
-  JLabel fivekStepsLabel = new JLabel();
-  JLabel outsideLabel = new JLabel();
-  JButton outsideBtn = new JButton();
-  JButton fiveKBtn = new JButton();
-  JPanel outsidePan = new JPanel();
-  JPanel fiveKPan = new JPanel();
+  JLabel agreeLabel = new JLabel();
+  JLabel emailLabel = new JLabel();
+  JTextArea emailTxt = new JTextArea();
+  JButton agreeBtn = new JButton();
+  String email = null;
 
   Image toPost;
   String[] hashes;
-  double points;
   int postIndex = 0;
   ArrayList<ImageHash> posts = new ArrayList<ImageHash>();
 
@@ -87,7 +85,6 @@ public class Gui extends Main implements ActionListener {
   JFrame hashtagFrame;
   JTextArea enterTagsTxt;
   JButton submitHashtagsBtn;
-  JLabel userTitle;
   JLabel enterTagsQ;
 
   // profile page things
@@ -96,8 +93,7 @@ public class Gui extends Main implements ActionListener {
   JLabel userNameLabel;
   JButton postAgainButton;
 
-  public Gui() {
-    points = 0.0;
+  public Gui() {}
 
     // post page
     postFrame = new JFrame("Posting");
@@ -165,44 +161,42 @@ public class Gui extends Main implements ActionListener {
     hashtagFrame = new JFrame();
     enterTagsTxt = new JTextArea();
     submitHashtagsBtn = new JButton("Enter");
-    userTitle = new JLabel();
     enterTagsQ = new JLabel();
     enterTagsQ.setVisible(false);
-    userTitle.setVisible(false);
     hashtagFrame.setVisible(false);
     enterTagsTxt.setVisible(false);
     submitHashtagsBtn.setVisible(false);
     submitHashtagsBtn.addActionListener(this);
 
     // fit check
+    // fit check
     // create objects
-    fitFrame = new JFrame("Fit Check");
+    fitFrame = new JFrame("privacy verification");
     exitFitBtn = new JButton("Exit");
-    fivekStepsLabel = new JLabel();
-    outsideLabel = new JLabel();
-    outsideBtn = new JButton("been Outside");
-    fiveKBtn = new JButton("walked 5k Steps");
+    agreeLabel = new JLabel();
+    emailLabel = new JLabel();
+    emailTxt = new JTextArea();
+    agreeBtn = new JButton("Agree to share info");
     // set sizes
     fitFrame.setSize(400, 300);
     exitFitBtn.setSize(100, 100);
-    fivekStepsLabel.setSize(500, 100);
-    outsideLabel.setSize(500, 100);
-    outsideBtn.setSize(100, 100);
-    fiveKBtn.setSize(100, 100);
+    agreeLabel.setSize(500, 100);
+    emailLabel.setSize(500, 100);
+    emailTxt.setSize(100, 100);
+    agreeBtn.setSize(100, 100);
     fitFrame.setLayout(new FlowLayout());
     // add action listeners
-    fiveKBtn.addActionListener(this);
-    outsideBtn.addActionListener(this);
+    agreeBtn.addActionListener(this);
     exitFitBtn.addActionListener(this);
     // set up fit check
-    fitFrame.add(BorderLayout.CENTER, outsideLabel);
-    fitFrame.add(BorderLayout.CENTER, fivekStepsLabel);
-    fitFrame.add(BorderLayout.CENTER, outsideBtn);
-    fitFrame.add(BorderLayout.CENTER, fiveKBtn);
+    fitFrame.add(BorderLayout.CENTER, emailLabel);
+    fitFrame.add(BorderLayout.CENTER, agreeLabel);
+    fitFrame.add(BorderLayout.CENTER, emailTxt);
+    fitFrame.add(BorderLayout.CENTER, agreeBtn);
     fitFrame.add(BorderLayout.CENTER, exitFitBtn);
     // set labels
-    outsideLabel.setText("Click if you have gone outside today.");
-    fivekStepsLabel.setText("Click if you have walked fivek steps.");
+    emailLabel.setText("Enter your email:");
+    agreeLabel.setText("Click if you agree to share your email:");
 
     // refreshing
     nextPostBtn = new JButton("Next");
@@ -224,10 +218,14 @@ public class Gui extends Main implements ActionListener {
     // scrollPostsFrame.setVisible(false);
     fitFrame.setVisible(false);
     exitFitBtn.setVisible(false);
-    fivekStepsLabel.setVisible(false);
-    outsideLabel.setVisible(false);
-    outsideBtn.setVisible(false);
-    fiveKBtn.setVisible(false);
+    agreeLabel.setVisible(false);
+    emailLabel.setVisible(false);
+    emailTxt.setVisible(false);
+    agreeBtn.setVisible(false);
+
+    profilePic.setVisible(false);
+	  profileFrame.setVisible(false);
+	  userNameLabel.setVisible(false);
 
   }// end of constructor
 
@@ -255,16 +253,12 @@ public class Gui extends Main implements ActionListener {
       } catch (InterruptedException e1) {
         e1.printStackTrace();
       }
-      fitCheck();
-    } else if (((JButton) b == exitFitBtn) || ((JButton) b == postAgainButton)) {
+       fitCheck();
+    } else if (((JButton) b == exitFitBtn)) {
       hashtags();
-    } else if (((JButton) b == outsideBtn)) {
-      outsideBtn.setVisible(false);
-      points++;
-    } else if (((JButton) b == fiveKBtn)) {
-      points += 3;
-      fiveKBtn.setVisible(false);
-    } else if (((JButton) b) == nextPostBtn) {
+    } else if (((JButton) b == agreeBtn)) {
+      agreeBtn.setVisible(false);
+    } else if(((JButton)b) == nextPostBtn){
       if (posts.size() - 1 > postIndex) {
         postIndex++;
         refreshPost();
@@ -286,11 +280,9 @@ public class Gui extends Main implements ActionListener {
     hashtagFrame.setVisible(true);
     enterTagsTxt.setVisible(true);
     submitHashtagsBtn.setVisible(true);
-    userTitle.setVisible(true);
     enterTagsQ.setVisible(true);
     hashtagFrame.setSize(275, 400);
-    hashtagFrame.add(userTitle);
-    userTitle.setText(scoreFunc());
+  
     Color txtBoxColor = new Color(170, 120, 190);
     enterTagsTxt.setBackground(txtBoxColor);
     enterTagsTxt.setPreferredSize(new Dimension(200, 100));
@@ -306,7 +298,7 @@ public class Gui extends Main implements ActionListener {
 
   public void profilePage() {
     System.out.println("inside profile function");
-    profileFrame = new JFrame(scoreFunc());
+    profileFrame = new JFrame(name);
     profilePic.setVisible(true);
     profileFrame.setVisible(true);
     userNameLabel.setVisible(true);
@@ -318,7 +310,7 @@ public class Gui extends Main implements ActionListener {
 
     Font welcomeFont = new Font("Georgia", Font.BOLD, 25);
     userNameLabel.setFont(welcomeFont);
-    userNameLabel.setText("Hello " + name);
+    userNameLabel.setText("Contact: " + email);
     ImageIcon myImage = new ImageIcon(
         "C:/Users/duffy/Downloads/Computer%20projects%20senior%20year/Hack36/ironman.png");
     Image image = myImage.getImage(); // transform it
@@ -337,17 +329,16 @@ public class Gui extends Main implements ActionListener {
     caption.setEditable(true);
     caption.setSize(150, 20);
     captionHead.setText("Enter your hashtags here");
-    points += 2;
   }// end of posting method
 
   public void scrollingMethod() {
 
     fitFrame.setVisible(false);
     exitFitBtn.setVisible(false);
-    fivekStepsLabel.setVisible(false);
-    outsideLabel.setVisible(false);
-    outsideBtn.setVisible(false);
-    fiveKBtn.setVisible(false);
+    agreeLabel.setVisible(false);
+    emailLabel.setVisible(false);
+    emailTxt.setVisible(false);
+    agreeBtn.setVisible(false);
     caption.setVisible(false);
     postFrame.setVisible(false);
     captionHead.setVisible(false);
@@ -359,7 +350,7 @@ public class Gui extends Main implements ActionListener {
     System.out.println("POST BEFORE NETWORK");
     hashes = algorithm(caption);
     String base64 = Network.imgToBase64String(toPost, "png");
-    Network.post(base64, hashes);
+    Network.post(base64, hashes, email, name);
   }
 
   public void fitCheck() {
@@ -406,7 +397,6 @@ public class Gui extends Main implements ActionListener {
       }
       myAlgList.add(parsedText);
       System.out.println(parsedText);
-      points += 0.5;
 
     }
     String[] arr = new String[myAlgList.size()];
