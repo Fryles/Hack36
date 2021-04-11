@@ -41,7 +41,9 @@ public class Network {
                     final ObjectMapper objectMapper = new ObjectMapper();
                     String mappableJSON = currentJSON.getJSONArray("hashes").toString();
                     String[] hashes = objectMapper.readValue(mappableJSON, String[].class);
-                    ImageHash img = new ImageHash(base64StringToImg(img64), hashes);
+                    String user = currentJSON.get("user").toString();
+                    String email = currentJSON.get("email").toString();
+                    ImageHash img = new ImageHash(base64StringToImg(img64), hashes, user, email);
                     imgs.add(img);
                 }
             }
@@ -63,7 +65,6 @@ public class Network {
         data.put("hashes", hashArr.toString());
         data.put("email", email);
         data.put("user", user);
-        System.out.println("POSTING");
         HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
                 .uri(URI.create(baseUri + "post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
                 .header("Content-Type", "application/x-www-form-urlencoded").build();

@@ -46,7 +46,6 @@ public class Gui extends Main implements ActionListener {
   JPanel welcomePanel;
   JTextArea nameBox;
   JLabel nameQuestion;
-  String name = null;
   JButton submitNameBtn;
 
   // scrollPostsFrame items
@@ -71,6 +70,7 @@ public class Gui extends Main implements ActionListener {
   JTextArea emailTxt = new JTextArea();
   JButton agreeBtn = new JButton();
   String email = null;
+  String name = "";
 
   Image toPost;
   String[] hashes;
@@ -241,7 +241,9 @@ public class Gui extends Main implements ActionListener {
     } else if (((JButton) b == submitNameBtn)) {
       name = nameBox.getText();
       if (name != null) {
-        posting();
+        fitCheck();
+        email = emailTxt.getText();
+        //posting();
       } // end of if original on posting page
     } else if (((JButton) b == leavePostingBtn)) {
       System.out.println("in button 2");
@@ -252,9 +254,11 @@ public class Gui extends Main implements ActionListener {
       } catch (InterruptedException e1) {
         e1.printStackTrace();
       }
-       fitCheck();
-    } else if (((JButton) b == exitFitBtn)) {
       hashtags();
+       //fitCheck();
+    } else if (((JButton) b == exitFitBtn)) {
+      //hashtags();
+      posting();
     } else if (((JButton) b == agreeBtn)) {
       agreeBtn.setVisible(false);
     } else if(((JButton)b) == nextPostBtn){
@@ -262,7 +266,7 @@ public class Gui extends Main implements ActionListener {
         postIndex++;
         refreshPost();
       } else {
-        profilePage();
+        //profilePage();
       }
     } else if (((JButton) b) == prevPostBtn) {
       if (postIndex > 0) {
@@ -348,8 +352,8 @@ public class Gui extends Main implements ActionListener {
   public void post() throws IOException, InterruptedException {
     System.out.println("POST BEFORE NETWORK");
     hashes = algorithm(caption);
-//    String base64 = Network.imgToBase64String(toPost, "png");
-    //Network.post(base64, hashes, email, name);
+    String base64 = Network.imgToBase64String(toPost, "png");
+    Network.post(base64, hashes, email, name);
   }
 
   public void fitCheck() {
@@ -433,11 +437,14 @@ public class Gui extends Main implements ActionListener {
   public void refreshPost() {
     if (posts.size() >= postIndex && postIndex >= 0) {
       ImageHash c = posts.get(postIndex);
+      JLabel usermail = new JLabel();
+      usermail.setText(c.email + ": " + c.user);
       Image myI = c.img;
       Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
       myMainPanel.add(BorderLayout.CENTER, scrollPic);
+      myMainPanel.add(BorderLayout.NORTH, usermail);
       String hashTemp = "";
       for (String ht : c.hashes) {
         hashTemp += "#" + ht + " ";
