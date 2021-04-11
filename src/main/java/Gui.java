@@ -39,14 +39,15 @@ public class Gui extends Main implements ActionListener {
   JTextArea caption;
   JFrame postFrame;
   JLabel captionHead;
+  JPanel postPanel;
 
   // Welcome Frame Items
   JFrame welcomePage;
+  JPanel welcomePanel;
   JTextArea nameBox;
-  JTextArea nameQuestion;
+  JLabel nameQuestion;
   String name = null;
   JButton submitNameBtn;
-  JPanel welcomePanel;
 
   // scrollPostsFrame items
   JFrame myMainPanel;
@@ -63,12 +64,14 @@ public class Gui extends Main implements ActionListener {
   FileDialog fd = new FileDialog(postFrame, "Open", FileDialog.LOAD);
 
   // fit check
-  JFrame fitFrame = new JFrame();
+  JFrame fitFrame = new JFrame("Fit check");
   JButton exitFitBtn = new JButton();
   JLabel fivekStepsLabel = new JLabel();
   JLabel outsideLabel = new JLabel();
   JButton outsideBtn = new JButton();
   JButton fiveKBtn = new JButton();
+  JPanel outsidePan = new JPanel();
+  JPanel fiveKPan = new JPanel();
 
   Image toPost;
   String[] hashes;
@@ -87,7 +90,7 @@ public class Gui extends Main implements ActionListener {
   JLabel userTitle;
   JLabel enterTagsQ;
 
-  //profile page things
+  // profile page things
   JFrame profileFrame;
   JLabel profilePic;
   JLabel userNameLabel;
@@ -99,31 +102,55 @@ public class Gui extends Main implements ActionListener {
     // post page
     postFrame = new JFrame("Posting");
     postFrame.setSize(375, 525);
-    postFrame.setLayout(new FlowLayout());
-    postFrame.add(label1);
-    postFrame.add(postBtn);
-    postFrame.add(picLabel, BorderLayout.SOUTH);
+    postFrame.setResizable(false);
+    postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    // postFrame.add(label1);
+    // postFrame.add(postBtn);
+    // postFrame.add(picLabel, BorderLayout.SOUTH);
 
     // captions
     caption = new JTextArea();
-    Color welcomeColor = new Color(180, 180, 180);
-    caption.setBackground(welcomeColor);
-    caption.setPreferredSize(new Dimension(200, 30));
-    caption.setSize(100, 100);
+    // Color welcomeColor = new Color(180, 180, 180);
+    // caption.setBackground(welcomeColor);
+    // caption.setPreferredSize(new Dimension(200, 30));
+    // caption.setSize(100, 100);
     captionHead = new JLabel();
-    postFrame.add(BorderLayout.SOUTH, caption);
-    postFrame.add(BorderLayout.CENTER, captionHead);
+    postPanel = new JPanel();
+    postFrame.add(postPanel);
+    postPanel.setLayout(null);
 
-    postFrame.add(BorderLayout.NORTH, leavePostingBtn);
-    postFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    label1.setBounds(135, 0, 100, 25);
+    postPanel.add(label1);
+
+    picLabel.setBounds(25, 25, 300, 300);
+    postPanel.add(picLabel);
+
+    postBtn.setBounds(145, 35, 75, 25);
+    postPanel.add(postBtn);
+
+    captionHead.setBounds(25, 375, 175, 25);
+    postPanel.add(captionHead);
+
+    caption.setLocation(200, 380);
+    postPanel.add(caption);
+
+    leavePostingBtn.setBounds(125, 450, 125, 25);
+    postPanel.add(leavePostingBtn);
+    leavePostingBtn.setVisible(false);
+
+    // postFrame.add(BorderLayout.SOUTH, caption);
+    // postFrame.add(BorderLayout.CENTER, captionHead);
+    // postFrame.add(BorderLayout.NORTH, leavePostingBtn);
+
     postBtn.addActionListener(this);
     leavePostingBtn.addActionListener(this);
     // postFrame.getContentPane...
 
-    //welcome stuff
+    // welcome stuff
     welcomePage = new JFrame("Welcome");
     nameBox = new JTextArea();
-    nameQuestion = new JTextArea();
+    nameQuestion = new JLabel();
     welcomePanel = new JPanel();
 
     // submit button
@@ -181,11 +208,10 @@ public class Gui extends Main implements ActionListener {
     nextPostBtn = new JButton("Next");
     prevPostBtn = new JButton("Previous");
 
-    //profile pages 
+    // profile pages
     profilePic = new JLabel();
     userNameLabel = new JLabel();
     postAgainButton = new JButton();
-
 
     // changes visibility to allow different pages without action listener.
     welcomePage.setVisible(true);
@@ -203,7 +229,7 @@ public class Gui extends Main implements ActionListener {
     outsideBtn.setVisible(false);
     fiveKBtn.setVisible(false);
 
-  }//end of constructor
+  }// end of constructor
 
   /**
    * Should check for people interacting with the project might use a button but I
@@ -230,7 +256,7 @@ public class Gui extends Main implements ActionListener {
         e1.printStackTrace();
       }
       fitCheck();
-    } else if (((JButton) b == exitFitBtn)||((JButton) b ==  postAgainButton)) {
+    } else if (((JButton) b == exitFitBtn) || ((JButton) b == postAgainButton)) {
       hashtags();
     } else if (((JButton) b == outsideBtn)) {
       outsideBtn.setVisible(false);
@@ -239,7 +265,7 @@ public class Gui extends Main implements ActionListener {
       points += 3;
       fiveKBtn.setVisible(false);
     } else if (((JButton) b) == nextPostBtn) {
-      if (posts.size()-1 > postIndex) {
+      if (posts.size() - 1 > postIndex) {
         postIndex++;
         refreshPost();
       } else {
@@ -250,10 +276,10 @@ public class Gui extends Main implements ActionListener {
         postIndex--;
         refreshPost();
       }
-    }else if((JButton)b == submitHashtagsBtn){
+    } else if ((JButton) b == submitHashtagsBtn) {
       getImages();
       scrollingMethod();
-    } 
+    }
   }// end of actionPerformed
 
   public void hashtags() {
@@ -288,14 +314,15 @@ public class Gui extends Main implements ActionListener {
     myMainPanel.setVisible(false);
     hashPanel.setVisible(false);
     scrollPic.setVisible(false);
-    profileFrame.setSize(275,400);
+    profileFrame.setSize(275, 400);
 
     Font welcomeFont = new Font("Georgia", Font.BOLD, 25);
     userNameLabel.setFont(welcomeFont);
-    userNameLabel.setText("Hello "+ name);
-    ImageIcon myImage = new ImageIcon("C:/Users/duffy/Downloads/Computer%20projects%20senior%20year/Hack36/ironman.png");
+    userNameLabel.setText("Hello " + name);
+    ImageIcon myImage = new ImageIcon(
+        "C:/Users/duffy/Downloads/Computer%20projects%20senior%20year/Hack36/ironman.png");
     Image image = myImage.getImage(); // transform it
-    Image newimg = image.getScaledInstance(240, 240,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+    Image newimg = image.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
     myImage = new ImageIcon(newimg);
     profilePic.setIcon(myImage);
   }
@@ -308,8 +335,7 @@ public class Gui extends Main implements ActionListener {
     nameBox.setVisible(false);
     nameQuestion.setVisible(false);
     caption.setEditable(true);
-    caption.setSize(200, 155);
-    caption.append("");
+    caption.setSize(150, 20);
     captionHead.setText("Enter your hashtags here");
     points += 2;
   }// end of posting method
@@ -452,12 +478,10 @@ public class Gui extends Main implements ActionListener {
 
     welcomePage.setVisible(true);
     welcomePage.setResizable(false);
-    
+
     Font welcomeFont = new Font("Abril Fatface", Font.PLAIN, 16);
     nameQuestion.setFont(welcomeFont);
     nameBox.setFont(welcomeFont);
-    nameQuestion.setEditable(false);
-
   }// end of start function
 
   public String scoreFunc() {
