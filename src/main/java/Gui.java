@@ -1,4 +1,4 @@
-package net;
+
 /**
  * @Author Duffy Anderson, Lucius Holzinger, Myles Marr
  * @Date 04/09/2021
@@ -93,7 +93,7 @@ public class Gui extends Main implements ActionListener {
   JLabel userNameLabel;
   JButton postAgainButton;
 
-  public Gui() {}
+  public Gui() {
 
     // post page
     postFrame = new JFrame("Posting");
@@ -356,11 +356,6 @@ public class Gui extends Main implements ActionListener {
   public void fitCheck() {
     fitFrame.setVisible(true);
     exitFitBtn.setVisible(true);
-    fivekStepsLabel.setVisible(true);
-    outsideLabel.setVisible(true);
-    outsideBtn.setVisible(true);
-    fiveKBtn.setVisible(true);
-    // scrollPostsFrame.setVisible(false);
 
   }
 
