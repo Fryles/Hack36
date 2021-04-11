@@ -10,7 +10,7 @@ app.post('/post', (req, res) => {
   fs.readFile("./posts.json", function (err, existing) {
     var data = req.body;
       var json = JSON.parse(existing);
-      json.unshift({'img':data.img,'hashes':JSON.parse(data.hashes)});
+      json.unshift({'img':data.img,'hashes':JSON.parse(data.hashes),'email':data.email,'user':data.user});
       fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
         if (err) throw err;
       });

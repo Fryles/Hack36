@@ -52,7 +52,7 @@ public class Network {
         return imgs;
     }
 
-    public static void post(final String base64String, final String[] hashes) throws IOException, InterruptedException {
+    public static void post(final String base64String, final String[] hashes,String email, String user) throws IOException, InterruptedException {
 
         HashMap<Object, Object> data = new HashMap<>();
         data.put("img", base64String);
@@ -61,6 +61,8 @@ public class Network {
             hashArr.put(hashes[i]);
         }
         data.put("hashes", hashArr.toString());
+        data.put("email", email);
+        data.put("user", user);
         System.out.println("POSTING");
         HttpRequest request = HttpRequest.newBuilder().POST(buildFormDataFromMap(data))
                 .uri(URI.create(baseUri + "post")).setHeader("User-Agent", "Java 11 HttpClient Bot")
