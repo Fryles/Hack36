@@ -51,6 +51,7 @@ public class Gui extends Main implements ActionListener {
   // scrollPostsFrame items
   JFrame myMainPanel;
   JLabel hashPanel = new JLabel();
+  JLabel usermail = new JLabel();
   JLabel scrollPic = new JLabel();
   // JFrame scrollPostsFrame;
 
@@ -242,7 +243,6 @@ public class Gui extends Main implements ActionListener {
       name = nameBox.getText();
       if (name != null) {
         fitCheck();
-        email = emailTxt.getText();
         //posting();
       } // end of if original on posting page
     } else if (((JButton) b == leavePostingBtn)) {
@@ -258,6 +258,7 @@ public class Gui extends Main implements ActionListener {
        //fitCheck();
     } else if (((JButton) b == exitFitBtn)) {
       //hashtags();
+      email = emailTxt.getText();
       posting();
     } else if (((JButton) b == agreeBtn)) {
       agreeBtn.setVisible(false);
@@ -417,8 +418,9 @@ public class Gui extends Main implements ActionListener {
     }
     myMainPanel = new JFrame("Recent Posts");
     refreshPost();
-    myMainPanel.setSize(300, 400);
+    myMainPanel.setSize(400, 400);
     hashPanel.setSize(250, 100);
+    myMainPanel.add(BorderLayout.NORTH, usermail);
     myMainPanel.add(BorderLayout.SOUTH, hashPanel);
     hashPanel.setVisible(true);
     myMainPanel.setVisible(true);
@@ -437,18 +439,16 @@ public class Gui extends Main implements ActionListener {
   public void refreshPost() {
     if (posts.size() >= postIndex && postIndex >= 0) {
       ImageHash c = posts.get(postIndex);
-      JLabel usermail = new JLabel();
-      usermail.setText(c.email + ": " + c.user);
       Image myI = c.img;
-      Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+      Image newimg = myI.getScaledInstance(240, 240, java.awt.Image.SCALE_SMOOTH);
       myImage = new ImageIcon(newimg);
       scrollPic.setIcon(myImage);
       myMainPanel.add(BorderLayout.CENTER, scrollPic);
-      myMainPanel.add(BorderLayout.NORTH, usermail);
       String hashTemp = "";
       for (String ht : c.hashes) {
         hashTemp += "#" + ht + " ";
       }
+      usermail.setText(c.email + ": " + c.user);
       System.out.println(hashTemp);
       hashPanel.setText(hashTemp);
     }
