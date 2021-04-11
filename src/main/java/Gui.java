@@ -348,8 +348,8 @@ public class Gui extends Main implements ActionListener {
   public void post() throws IOException, InterruptedException {
     System.out.println("POST BEFORE NETWORK");
     hashes = algorithm(caption);
-//    String base64 = Network.imgToBase64String(toPost, "png");
-    //Network.post(base64, hashes, email, name);
+    String base64 = Network.imgToBase64String(toPost, "png");
+    Network.post(base64, hashes, email, name);
   }
 
   public void fitCheck() {
@@ -358,6 +358,7 @@ public class Gui extends Main implements ActionListener {
     agreeLabel.setVisible(true);
     emailLabel.setVisible(true);
     emailTxt.setVisible(true);
+    emailTxt.setPreferredSize(new Dimension(200,30));
     agreeBtn.setVisible(true);
     // scrollPostsFrame.setVisible(false);
 
