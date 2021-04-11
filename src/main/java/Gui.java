@@ -398,7 +398,7 @@ public class Gui extends Main implements ActionListener {
       } else {
         parsedText = tempString.substring(0, tempString.length());
       }
-      myAlgList.add(parsedText);
+      myAlgList.add(parsedText.trim());
       System.out.println(parsedText);
 
     }
