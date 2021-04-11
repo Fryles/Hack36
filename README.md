@@ -14,7 +14,8 @@
   <a href="">Video Demo</a>
   
 ## Presentation Link:
-  <a href="">PPT Demo</a>
+  <a href="https://docs.google.com/presentation/d/1lRDAS7pof0CruP05EZV0VhL_vLIv_o54CBDyELj83do/edit?usp=sharing">PPT For Hack36</a>
+  <a href="https://docs.google.com/presentation/d/1Qu9gfDjWZx2x31a7w6y_zIJYED_yII11XGtQH-MzlfA/edit#slide=id.p">PPT Demo</a>
   
   
 ## Table of Contents:
@@ -30,11 +31,9 @@
 
 Team Name: Dueling Lutes
 
-* [Anuj Modi](https://github.com/descifrado)
-* [Arsh Singh](https://github.com/iosdev474)
-* [Shashwat Pandey](https://github.com/shashwat1998)
-* [Manas Uniyal](https://github.com/ManasUniyal)
-
+* [Myles Marr](https://github.com/fryles)
+* [Lucius Holzinger](https://github.com/lholzER)
+* [Duffy Anderson](https://github.com/danderson5001)
 
 ### Made at:
 <a href="https://hack36.com"> <img src="http://bit.ly/BuiltAtHack36" height=20px> </a>
