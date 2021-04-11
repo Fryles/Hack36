@@ -483,20 +483,6 @@ public class Gui extends Main implements ActionListener {
     nameQuestion.setFont(welcomeFont);
     nameBox.setFont(welcomeFont);
   }// end of start function
-
-  public String scoreFunc() {
-    if (points >= 10) {
-      return "Platinum Member";
-    } else if (points >= 8) {
-      return "Gold Member";
-    } else if (points >= 6) {
-      return "Silver Member";
-    } else if (points >= 4) {
-      return "Bronze Member";
-    } else {
-      return "Novice Member";
-    }
-  }
 }// end of Gui class
 
 // nameQuestion.setColor(welcomeColor);
