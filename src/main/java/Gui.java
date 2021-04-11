@@ -92,7 +92,6 @@ public class Gui extends Main implements ActionListener {
   JLabel profilePic;
   JLabel userNameLabel;
   JButton postAgainButton;
-
   public Gui() {
 
     // post page
@@ -195,8 +194,8 @@ public class Gui extends Main implements ActionListener {
     fitFrame.add(BorderLayout.CENTER, agreeBtn);
     fitFrame.add(BorderLayout.CENTER, exitFitBtn);
     // set labels
-    emailLabel.setText("Enter your email:");
-    agreeLabel.setText("Click if you agree to share your email:");
+    emailLabel.setText("Enter your email and ");
+    agreeLabel.setText("Click to agree to share your info");
 
     // refreshing
     nextPostBtn = new JButton("Next");
@@ -224,8 +223,8 @@ public class Gui extends Main implements ActionListener {
     agreeBtn.setVisible(false);
 
     profilePic.setVisible(false);
-	  profileFrame.setVisible(false);
-	  userNameLabel.setVisible(false);
+//	profileFrame.setVisible(false);
+	userNameLabel.setVisible(false);
 
   }// end of constructor
 
@@ -349,13 +348,18 @@ public class Gui extends Main implements ActionListener {
   public void post() throws IOException, InterruptedException {
     System.out.println("POST BEFORE NETWORK");
     hashes = algorithm(caption);
-    String base64 = Network.imgToBase64String(toPost, "png");
-    Network.post(base64, hashes, email, name);
+//    String base64 = Network.imgToBase64String(toPost, "png");
+    //Network.post(base64, hashes, email, name);
   }
 
   public void fitCheck() {
     fitFrame.setVisible(true);
     exitFitBtn.setVisible(true);
+    agreeLabel.setVisible(true);
+    emailLabel.setVisible(true);
+    emailTxt.setVisible(true);
+    agreeBtn.setVisible(true);
+    // scrollPostsFrame.setVisible(false);
 
   }
 
@@ -479,3 +483,4 @@ public class Gui extends Main implements ActionListener {
 // List<ImageHash> hashPicList;
 // ImageHash Objects
 // hashPicList = new ArrayList<>();
+
